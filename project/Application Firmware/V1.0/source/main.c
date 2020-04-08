@@ -155,7 +155,7 @@ int32_t main(void)
 				powerDown_Task();
 			}
 			
-			//掉电恢复
+			//掉电恢复.
 			if(powerOnFlag)
 			{
 				powerOnFlag = 0;

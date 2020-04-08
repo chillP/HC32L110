@@ -20,5 +20,5 @@
 ".\output\release\driver_mid.o"
 ".\output\release\hdee5.o"
 --strict --scatter ".\output\release\app_V1.sct"
---keep=*Handler --summary_stderr --info summarysizes --map
+--keep=*Handler --summary_stderr --info summarysizes --map --load_addr_map_info
 --list ".\output\release\app_V1.map" -o .\output\release\app_V1.0

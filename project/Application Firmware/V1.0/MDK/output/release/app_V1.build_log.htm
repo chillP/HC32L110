@@ -3,55 +3,104 @@
 <pre>
 <h1>礦ision Build Log</h1>
 <h2>Tool Versions:</h2>
-IDE-Version: μVision V5.17.0.0
-Copyright (C) 2015 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: Gu cj, Microsoft, LIC=9WSBS-LUR6E-T3ZMI-T3M2N-JECBR-FWHXA
+IDE-Version: μVision V5.28.0.0
+Copyright (C) 2019 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: GU Microsoft, Microsoft, LIC=1WS45-GQ4DB-EXIUX-H8FDX-8PH1J-G6Z60
  
 Tool Versions:
-Toolchain:       MDK-ARM Standard  Version: 5.17
-Toolchain Path:  D:\Software\Keil_v5\ARM\ARMCC\Bin
-C Compiler:      Armcc.exe V5.06 update 1 (build 61)
-Assembler:       Armasm.exe V5.06 update 1 (build 61)
-Linker/Locator:  ArmLink.exe V5.06 update 1 (build 61)
-Library Manager: ArmAr.exe V5.06 update 1 (build 61)
-Hex Converter:   FromElf.exe V5.06 update 1 (build 61)
-CPU DLL:         SARMCM3.DLL V5.17
-Dialog DLL:      DARMCM1.DLL V1.12.0.0
-Target DLL:      Segger\JL2CM3.dll V2.99.16.0
-Dialog DLL:      TARMCM1.DLL V1.9.0.0
+Toolchain:       MDK-ARM Professional  Version: 5.28.0.0
+Toolchain Path:  D:\Useful\Keil for ARM V5.28\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 6 (build 750)
+Assembler:       Armasm.exe V5.06 update 6 (build 750)
+Linker/Locator:  ArmLink.exe V5.06 update 6 (build 750)
+Library Manager: ArmAr.exe V5.06 update 6 (build 750)
+Hex Converter:   FromElf.exe V5.06 update 6 (build 750)
+CPU DLL:         SARMCM3.DLL V5.28.0.0
+Dialog DLL:      DARMCM1.DLL V1.19.2.0
+Target DLL:      Segger\JL2CM3.dll V2.99.36.0
+Dialog DLL:      TARMCM1.DLL V1.14.1.0
  
 <h2>Project:</h2>
-G:\工作\燃气检测软件\简单代码框架1\LSD4WN1031-01D0_Firmware_Rev1.0\project\Application Firmware\V1.0\MDK\App_V1.0.uvprojx
-Project File Date:  04/07/2020
+E:\工作\霍尼燃气检测\Git code\HC32L110\project\Application Firmware\V1.0\MDK\App_V1.0.uvprojx
+Project File Date:  04/09/2020
 
 <h2>Output:</h2>
-*** Using Compiler 'V5.06 update 1 (build 61)', folder: 'D:\Software\Keil_v5\ARM\ARMCC\Bin'
+*** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Useful\Keil for ARM V5.28\ARM\ARMCC\Bin'
 Build target 'App_V1.0'
+assembling startup_hc32l110.s...
+compiling system_hc32l110.c...
+compiling lpuart.c...
+compiling clk.c...
+compiling ddl.c...
 compiling main.c...
-..\source\main.c(109): warning:  #177-D: variable "led" was declared but never referenced
+..\source\main.c(109): warning:  #177-D: variable "led"  was declared but never referenced
   	uint8_t led=0;
 ..\source\main.c: 1 warning, 0 errors
+compiling interrupts_hc32l110.c...
+compiling app.c...
+..\..\..\..\application\app.c(75): warning:  #177-D: variable "checkSum"  was declared but never referenced
+  	uint8_t checkSum = 0x00;
+..\..\..\..\application\app.c(389): warning:  #177-D: variable "handledFlag"  was declared but never referenced
+  	static bool handledFlag=0;
+..\..\..\..\application\app.c: 2 warnings, 0 errors
+compiling lpm.c...
+compiling uart.c...
+compiling lpt.c...
+compiling gpio.c...
+compiling bt.c...
+compiling commonfun.c...
+compiling wdt.c...
+compiling pca.c...
+compiling HDEE5.c...
+compiling LSD_LoRaWAN_ICA_Driver.c...
+..\..\..\..\lorawan\LSD_LoRaWAN_ICA_Driver.c(797): warning:  #177-D: variable "result"  was declared but never referenced
+  	uint8_t result[200] = {0};
+..\..\..\..\lorawan\LSD_LoRaWAN_ICA_Driver.c: 1 warning, 0 errors
+compiling driver_mid.c...
+..\..\..\..\midware\driver_mid.c(98): warning:  #177-D: variable "ledstat"  was declared but never referenced
+  	static bool ledstat=0;
+..\..\..\..\midware\driver_mid.c(99): warning:  #177-D: variable "powerLowFlag"  was declared but never referenced
+  	static uint8_t powerLowFlag=0;
+..\..\..\..\midware\driver_mid.c(483): warning:  #550-D: variable "enResult"  was set but never used
+      en_result_t      enResult = Error;
+..\..\..\..\midware\driver_mid.c(541): warning:  #550-D: variable "enResult"  was set but never used
+      en_result_t      enResult = Error;
+..\..\..\..\midware\driver_mid.c(584): warning:  #177-D: variable "ledstat"  was declared but never referenced
+  	static bool ledstat=0;
+..\..\..\..\midware\driver_mid.c(624): warning:  #177-D: variable "stcAdtTIMBCfg"  was declared but never referenced
+      stc_adt_CHxX_port_cfg_t stcAdtTIMBCfg;
+..\..\..\..\midware\driver_mid.c(684): warning:  #550-D: variable "enResult"  was set but never used
+      en_result_t      enResult = Ok;
+..\..\..\..\midware\driver_mid.c(685): warning:  #177-D: variable "u32Cnt"  was declared but never referenced
+      uint32_t         u32Cnt; 
+..\..\..\..\midware\driver_mid.c: 8 warnings, 0 errors
+compiling adt.c...
 linking...
-Program Size: Code=29684 RO-data=1040 RW-data=268 ZI-data=2860  
-".\output\release\app_V1.0" - 0 Error(s), 1 Warning(s).
+Program Size: Code=30072 RO-data=1044 RW-data=268 ZI-data=2860  
+".\output\release\app_V1.0" - 0 Error(s), 12 Warning(s).
 
 <h2>Software Packages used:</h2>
 
 Package Vendor: ARM
-                http://www.keil.com/pack/ARM.CMSIS.4.5.0.pack
-                ARM::CMSIS:CORE:4.3.0
+                http://www.keil.com/pack/ARM.CMSIS.5.5.1.pack
+                ARM.CMSIS.5.5.1
                 CMSIS (Cortex Microcontroller Software Interface Standard)
-   * Component: CORE Version: 4.3.0
+   * Component: CORE Version: 5.2.0
+
+Package Vendor: HDSC
+                https://raw.githubusercontent.com/hdscmcu/pack/master/HDSC.HC32L110.1.0.3.pack
+                HDSC.HC32L110.1.0.3
+                HC32L110 ARM Cortex-M0+ Device Family Pack
 
 <h2>Collection of Component include folders:</h2>
-  G:\工作\燃气检测软件\简单代码框架1\LSD4WN1031-01D0_Firmware_Rev1.0\project\Application Firmware\V1.0\MDK\RTE
-  D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include
-  D:\Software\Keil_v5\ARM\PACK\HDSC\HC32L110\1.0.3\Device\Include
+  .\RTE\_App_V1.0
+  D:\Useful\Keil for ARM V5.28\ARM\CMSIS\5.5.1\CMSIS\Core\Include
+  D:\Useful\Keil for ARM V5.28\HDSC\HC32L110\1.0.3\Device\Include
 
 <h2>Collection of Component Files used:</h2>
 
-   * Component: ARM::CMSIS:CORE:4.3.0
-Build Time Elapsed:  00:00:01
+   * Component: ARM::CMSIS:CORE:5.2.0
+Build Time Elapsed:  00:00:05
 </pre>
 </body>
 </html>
