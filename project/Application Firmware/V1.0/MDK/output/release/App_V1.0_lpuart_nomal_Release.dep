@@ -1,0 +1,171 @@
+Dependencies for Project 'App_V1.0', Target 'lpuart_nomal_Release': (DO NOT MODIFY !)
+F (.\startup_hc32l110.s)(0x5BFE4982)(--cpu Cortex-M0+ -g --apcs=interwork -I "G:\工作\燃气检测软件\简单代码框架\LSD4WN1031-01D0_Firmware_Rev1.0\project\Application Firmware\V1.0\MDK\RTE"-I D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I D:\Software\Keil_v5\ARM\PACK\HDSC\HC32L110\1.0.3\Device\Include--pd "__UVISION_VERSION SETA 517" --pd "_RTE_ SETA 1"-o .\output\release\startup_hc32l110.o --depend .\output\release\startup_hc32l110.d)
+F (..\..\..\..\mcu\common\system_hc32l110.c)(0x5AF95579)(-c --cpu Cortex-M0+ -g -O0 --apcs=interwork --split_sections -I..\..\..\..\mcu\common -I..\source -I..\..\..\..\driver\inc-I "G:\工作\燃气检测软件\简单代码框架\LSD4WN1031-01D0_Firmware_Rev1.0\project\Application Firmware\V1.0\MDK\RTE"-I D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I D:\Software\Keil_v5\ARM\PACK\HDSC\HC32L110\1.0.3\Device\Include-D__UVISION_VERSION="517" -D_RTE_-o .\output\release\system_hc32l110.o --omf_browse .\output\release\system_hc32l110.crf --depend .\output\release\system_hc32l110.d)
+I (..\..\..\..\mcu\common\base_types.h)(0x5B5EBCD6)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55DB2B76)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\string.h)(0x55DB2B78)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stddef.h)(0x55DB2B7E)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stdint.h)(0x55DB2B80)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\assert.h)(0x55DB2B78)
+I (..\..\..\..\mcu\common\hc32l110.h)(0x5B9A5778)
+I (D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm0plus.h)(0x5625B70C)
+I (D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmInstr.h)(0x5625A350)
+I (D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\cmsis_armcc.h)(0x5625A350)
+I (D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmFunc.h)(0x5625A350)
+I (..\..\..\..\mcu\common\system_hc32l110.h)(0x5AD2E8C6)
+I (..\..\..\..\driver\inc\ddl.h)(0x5AFA5F07)
+I (..\..\..\..\driver\inc\clk.h)(0x5BBB13C0)
+I (..\..\..\..\driver\inc\interrupts_hc32l110.h)(0x5AFA673C)
+I (..\..\..\..\driver\inc\gpio.h)(0x5B9A3D68)
+I (..\source\ddl_device.h)(0x5BFE4982)
+F (..\source\main.c)(0x5E72D8F3)(-c --cpu Cortex-M0+ -g -O0 --apcs=interwork --split_sections -I..\..\..\..\mcu\common -I..\source -I..\..\..\..\driver\inc-I "G:\工作\燃气检测软件\简单代码框架\LSD4WN1031-01D0_Firmware_Rev1.0\project\Application Firmware\V1.0\MDK\RTE"-I D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I D:\Software\Keil_v5\ARM\PACK\HDSC\HC32L110\1.0.3\Device\Include-D__UVISION_VERSION="517" -D_RTE_-o .\output\release\main.o --omf_browse .\output\release\main.crf --depend .\output\release\main.d)
+I (..\..\..\..\driver\inc\ddl.h)(0x5AFA5F07)
+I (..\..\..\..\mcu\common\base_types.h)(0x5B5EBCD6)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55DB2B76)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\string.h)(0x55DB2B78)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stddef.h)(0x55DB2B7E)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stdint.h)(0x55DB2B80)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\assert.h)(0x55DB2B78)
+I (..\..\..\..\mcu\common\hc32l110.h)(0x5B9A5778)
+I (D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm0plus.h)(0x5625B70C)
+I (D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmInstr.h)(0x5625A350)
+I (D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\cmsis_armcc.h)(0x5625A350)
+I (D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmFunc.h)(0x5625A350)
+I (..\..\..\..\mcu\common\system_hc32l110.h)(0x5AD2E8C6)
+I (..\..\..\..\driver\inc\clk.h)(0x5BBB13C0)
+I (..\..\..\..\driver\inc\interrupts_hc32l110.h)(0x5AFA673C)
+I (..\..\..\..\driver\inc\gpio.h)(0x5B9A3D68)
+I (..\source\ddl_device.h)(0x5BFE4982)
+I (..\..\..\..\driver\inc\lpuart.h)(0x5B5EBCD6)
+I (..\..\..\..\driver\inc\bt.h)(0x5AFA673B)
+I (..\..\..\..\driver\inc\lpm.h)(0x5AFA673C)
+F (..\..\..\..\driver\src\ddl.c)(0x5B99CCF0)(-c --cpu Cortex-M0+ -g -O0 --apcs=interwork --split_sections -I..\..\..\..\mcu\common -I..\source -I..\..\..\..\driver\inc-I "G:\工作\燃气检测软件\简单代码框架\LSD4WN1031-01D0_Firmware_Rev1.0\project\Application Firmware\V1.0\MDK\RTE"-I D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I D:\Software\Keil_v5\ARM\PACK\HDSC\HC32L110\1.0.3\Device\Include-D__UVISION_VERSION="517" -D_RTE_-o .\output\release\ddl.o --omf_browse .\output\release\ddl.crf --depend .\output\release\ddl.d)
+I (..\..\..\..\driver\inc\ddl.h)(0x5AFA5F07)
+I (..\..\..\..\mcu\common\base_types.h)(0x5B5EBCD6)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55DB2B76)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\string.h)(0x55DB2B78)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stddef.h)(0x55DB2B7E)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stdint.h)(0x55DB2B80)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\assert.h)(0x55DB2B78)
+I (..\..\..\..\mcu\common\hc32l110.h)(0x5B9A5778)
+I (D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm0plus.h)(0x5625B70C)
+I (D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmInstr.h)(0x5625A350)
+I (D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\cmsis_armcc.h)(0x5625A350)
+I (D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmFunc.h)(0x5625A350)
+I (..\..\..\..\mcu\common\system_hc32l110.h)(0x5AD2E8C6)
+I (..\..\..\..\driver\inc\clk.h)(0x5BBB13C0)
+I (..\..\..\..\driver\inc\interrupts_hc32l110.h)(0x5AFA673C)
+I (..\..\..\..\driver\inc\gpio.h)(0x5B9A3D68)
+I (..\source\ddl_device.h)(0x5BFE4982)
+F (..\..\..\..\driver\src\interrupts_hc32l110.c)(0x5AF2BAD3)(-c --cpu Cortex-M0+ -g -O0 --apcs=interwork --split_sections -I..\..\..\..\mcu\common -I..\source -I..\..\..\..\driver\inc-I "G:\工作\燃气检测软件\简单代码框架\LSD4WN1031-01D0_Firmware_Rev1.0\project\Application Firmware\V1.0\MDK\RTE"-I D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I D:\Software\Keil_v5\ARM\PACK\HDSC\HC32L110\1.0.3\Device\Include-D__UVISION_VERSION="517" -D_RTE_-o .\output\release\interrupts_hc32l110.o --omf_browse .\output\release\interrupts_hc32l110.crf --depend .\output\release\interrupts_hc32l110.d)
+I (..\..\..\..\driver\inc\ddl.h)(0x5AFA5F07)
+I (..\..\..\..\mcu\common\base_types.h)(0x5B5EBCD6)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55DB2B76)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\string.h)(0x55DB2B78)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stddef.h)(0x55DB2B7E)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stdint.h)(0x55DB2B80)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\assert.h)(0x55DB2B78)
+I (..\..\..\..\mcu\common\hc32l110.h)(0x5B9A5778)
+I (D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm0plus.h)(0x5625B70C)
+I (D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmInstr.h)(0x5625A350)
+I (D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\cmsis_armcc.h)(0x5625A350)
+I (D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmFunc.h)(0x5625A350)
+I (..\..\..\..\mcu\common\system_hc32l110.h)(0x5AD2E8C6)
+I (..\..\..\..\driver\inc\clk.h)(0x5BBB13C0)
+I (..\..\..\..\driver\inc\interrupts_hc32l110.h)(0x5AFA673C)
+I (..\..\..\..\driver\inc\gpio.h)(0x5B9A3D68)
+I (..\source\ddl_device.h)(0x5BFE4982)
+F (..\..\..\..\driver\src\clk.c)(0x5BFB89AD)(-c --cpu Cortex-M0+ -g -O0 --apcs=interwork --split_sections -I..\..\..\..\mcu\common -I..\source -I..\..\..\..\driver\inc-I "G:\工作\燃气检测软件\简单代码框架\LSD4WN1031-01D0_Firmware_Rev1.0\project\Application Firmware\V1.0\MDK\RTE"-I D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I D:\Software\Keil_v5\ARM\PACK\HDSC\HC32L110\1.0.3\Device\Include-D__UVISION_VERSION="517" -D_RTE_-o .\output\release\clk.o --omf_browse .\output\release\clk.crf --depend .\output\release\clk.d)
+I (..\..\..\..\driver\inc\clk.h)(0x5BBB13C0)
+I (..\..\..\..\driver\inc\ddl.h)(0x5AFA5F07)
+I (..\..\..\..\mcu\common\base_types.h)(0x5B5EBCD6)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55DB2B76)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\string.h)(0x55DB2B78)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stddef.h)(0x55DB2B7E)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stdint.h)(0x55DB2B80)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\assert.h)(0x55DB2B78)
+I (..\..\..\..\mcu\common\hc32l110.h)(0x5B9A5778)
+I (D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm0plus.h)(0x5625B70C)
+I (D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmInstr.h)(0x5625A350)
+I (D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\cmsis_armcc.h)(0x5625A350)
+I (D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmFunc.h)(0x5625A350)
+I (..\..\..\..\mcu\common\system_hc32l110.h)(0x5AD2E8C6)
+I (..\..\..\..\driver\inc\gpio.h)(0x5B9A3D68)
+I (..\..\..\..\driver\inc\interrupts_hc32l110.h)(0x5AFA673C)
+I (..\source\ddl_device.h)(0x5BFE4982)
+F (..\..\..\..\driver\src\lpuart.c)(0x5BD6A584)(-c --cpu Cortex-M0+ -g -O0 --apcs=interwork --split_sections -I..\..\..\..\mcu\common -I..\source -I..\..\..\..\driver\inc-I "G:\工作\燃气检测软件\简单代码框架\LSD4WN1031-01D0_Firmware_Rev1.0\project\Application Firmware\V1.0\MDK\RTE"-I D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I D:\Software\Keil_v5\ARM\PACK\HDSC\HC32L110\1.0.3\Device\Include-D__UVISION_VERSION="517" -D_RTE_-o .\output\release\lpuart.o --omf_browse .\output\release\lpuart.crf --depend .\output\release\lpuart.d)
+I (..\..\..\..\driver\inc\lpuart.h)(0x5B5EBCD6)
+I (..\..\..\..\driver\inc\ddl.h)(0x5AFA5F07)
+I (..\..\..\..\mcu\common\base_types.h)(0x5B5EBCD6)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55DB2B76)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\string.h)(0x55DB2B78)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stddef.h)(0x55DB2B7E)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stdint.h)(0x55DB2B80)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\assert.h)(0x55DB2B78)
+I (..\..\..\..\mcu\common\hc32l110.h)(0x5B9A5778)
+I (D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm0plus.h)(0x5625B70C)
+I (D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmInstr.h)(0x5625A350)
+I (D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\cmsis_armcc.h)(0x5625A350)
+I (D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmFunc.h)(0x5625A350)
+I (..\..\..\..\mcu\common\system_hc32l110.h)(0x5AD2E8C6)
+I (..\..\..\..\driver\inc\clk.h)(0x5BBB13C0)
+I (..\..\..\..\driver\inc\interrupts_hc32l110.h)(0x5AFA673C)
+I (..\..\..\..\driver\inc\gpio.h)(0x5B9A3D68)
+I (..\source\ddl_device.h)(0x5BFE4982)
+F (..\..\..\..\driver\src\bt.c)(0x5AF2BAD3)(-c --cpu Cortex-M0+ -g -O0 --apcs=interwork --split_sections -I..\..\..\..\mcu\common -I..\source -I..\..\..\..\driver\inc-I "G:\工作\燃气检测软件\简单代码框架\LSD4WN1031-01D0_Firmware_Rev1.0\project\Application Firmware\V1.0\MDK\RTE"-I D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I D:\Software\Keil_v5\ARM\PACK\HDSC\HC32L110\1.0.3\Device\Include-D__UVISION_VERSION="517" -D_RTE_-o .\output\release\bt.o --omf_browse .\output\release\bt.crf --depend .\output\release\bt.d)
+I (..\..\..\..\driver\inc\bt.h)(0x5AFA673B)
+I (..\..\..\..\driver\inc\ddl.h)(0x5AFA5F07)
+I (..\..\..\..\mcu\common\base_types.h)(0x5B5EBCD6)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55DB2B76)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\string.h)(0x55DB2B78)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stddef.h)(0x55DB2B7E)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stdint.h)(0x55DB2B80)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\assert.h)(0x55DB2B78)
+I (..\..\..\..\mcu\common\hc32l110.h)(0x5B9A5778)
+I (D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm0plus.h)(0x5625B70C)
+I (D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmInstr.h)(0x5625A350)
+I (D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\cmsis_armcc.h)(0x5625A350)
+I (D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmFunc.h)(0x5625A350)
+I (..\..\..\..\mcu\common\system_hc32l110.h)(0x5AD2E8C6)
+I (..\..\..\..\driver\inc\clk.h)(0x5BBB13C0)
+I (..\..\..\..\driver\inc\interrupts_hc32l110.h)(0x5AFA673C)
+I (..\..\..\..\driver\inc\gpio.h)(0x5B9A3D68)
+I (..\source\ddl_device.h)(0x5BFE4982)
+F (..\..\..\..\driver\src\lpm.c)(0x5AF2BAD3)(-c --cpu Cortex-M0+ -g -O0 --apcs=interwork --split_sections -I..\..\..\..\mcu\common -I..\source -I..\..\..\..\driver\inc-I "G:\工作\燃气检测软件\简单代码框架\LSD4WN1031-01D0_Firmware_Rev1.0\project\Application Firmware\V1.0\MDK\RTE"-I D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I D:\Software\Keil_v5\ARM\PACK\HDSC\HC32L110\1.0.3\Device\Include-D__UVISION_VERSION="517" -D_RTE_-o .\output\release\lpm.o --omf_browse .\output\release\lpm.crf --depend .\output\release\lpm.d)
+I (..\..\..\..\driver\inc\lpm.h)(0x5AFA673C)
+I (..\..\..\..\driver\inc\ddl.h)(0x5AFA5F07)
+I (..\..\..\..\mcu\common\base_types.h)(0x5B5EBCD6)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55DB2B76)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\string.h)(0x55DB2B78)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stddef.h)(0x55DB2B7E)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stdint.h)(0x55DB2B80)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\assert.h)(0x55DB2B78)
+I (..\..\..\..\mcu\common\hc32l110.h)(0x5B9A5778)
+I (D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm0plus.h)(0x5625B70C)
+I (D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmInstr.h)(0x5625A350)
+I (D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\cmsis_armcc.h)(0x5625A350)
+I (D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmFunc.h)(0x5625A350)
+I (..\..\..\..\mcu\common\system_hc32l110.h)(0x5AD2E8C6)
+I (..\..\..\..\driver\inc\clk.h)(0x5BBB13C0)
+I (..\..\..\..\driver\inc\interrupts_hc32l110.h)(0x5AFA673C)
+I (..\..\..\..\driver\inc\gpio.h)(0x5B9A3D68)
+I (..\source\ddl_device.h)(0x5BFE4982)
+F (..\..\..\..\driver\src\gpio.c)(0x5AF2BAD3)(-c --cpu Cortex-M0+ -g -O0 --apcs=interwork --split_sections -I..\..\..\..\mcu\common -I..\source -I..\..\..\..\driver\inc-I "G:\工作\燃气检测软件\简单代码框架\LSD4WN1031-01D0_Firmware_Rev1.0\project\Application Firmware\V1.0\MDK\RTE"-I D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I D:\Software\Keil_v5\ARM\PACK\HDSC\HC32L110\1.0.3\Device\Include-D__UVISION_VERSION="517" -D_RTE_-o .\output\release\gpio.o --omf_browse .\output\release\gpio.crf --depend .\output\release\gpio.d)
+I (..\..\..\..\driver\inc\gpio.h)(0x5B9A3D68)
+I (..\..\..\..\driver\inc\ddl.h)(0x5AFA5F07)
+I (..\..\..\..\mcu\common\base_types.h)(0x5B5EBCD6)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55DB2B76)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\string.h)(0x55DB2B78)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stddef.h)(0x55DB2B7E)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\stdint.h)(0x55DB2B80)
+I (D:\Software\Keil_v5\ARM\ARMCC\include\assert.h)(0x55DB2B78)
+I (..\..\..\..\mcu\common\hc32l110.h)(0x5B9A5778)
+I (D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm0plus.h)(0x5625B70C)
+I (D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmInstr.h)(0x5625A350)
+I (D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\cmsis_armcc.h)(0x5625A350)
+I (D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmFunc.h)(0x5625A350)
+I (..\..\..\..\mcu\common\system_hc32l110.h)(0x5AD2E8C6)
+I (..\..\..\..\driver\inc\clk.h)(0x5BBB13C0)
+I (..\..\..\..\driver\inc\interrupts_hc32l110.h)(0x5AFA673C)
+I (..\source\ddl_device.h)(0x5BFE4982)
+F (..\readme.txt)(0x5B9A226B)()
