@@ -65,7 +65,7 @@ extern "C"
 /* Global pre-processor symbols/macros ('#define')                            */
 /******************************************************************************/
 
-#define DDL_IRQ_LEVEL_DEFAULT                   4u
+#define DDL_IRQ_LEVEL_DEFAULT                   3u
 
 ///< 系统中断使能开关
 void EnableNvic(uint32_t u32Irq,uint8_t u8Level,boolean_t bEn);

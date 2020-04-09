@@ -6,7 +6,7 @@
 
 #define UART0_RXBUFSIZE 255
 #define UART1_RXBUFSIZE 255
-#define LPUART_RXBUFSIZE 255
+#define LPUART_RXBUFSIZE 512
 
 void SysTick_init(void);
 uint32_t getTick(void);

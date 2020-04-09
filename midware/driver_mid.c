@@ -597,8 +597,6 @@ void Adt5CompACalllback(void)
 		if(Gpio_GetIO(0, 3)==0 && powerLowFlag==1) 
 		{	
 			vdetectEnable = 0;	
-			ledStat = QUICKFLASH;
-			printf("power-down detected!!!\r\n"); 
 			powerDown_Task();
 		}
 		if(Gpio_GetIO(0, 3)==0) 
