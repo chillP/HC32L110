@@ -50,6 +50,7 @@ extern bool heartbeatReport_Tp;
 extern uint8_t EeBuf[HDEE_EeSize];
 extern ledStatType ledStat;
 extern bool keyDetectedFlag;
+extern bool powerOnFlag;
 
 void lorawanResetAndConfig(void)
 {
@@ -156,6 +157,11 @@ void getSensorData_Task(void)
 			statReportFlag_Stest =1;
 			break;
 		
+	}
+	
+	if(alarmReportFlag_Lel|alarmReportFlag_Sensor|statReportFlag_Mute|statReportFlag_Stest)
+	{
+		errorReportFlag = 1;
 	}
 	
 	//数据获取 - 5s周期
@@ -309,9 +315,9 @@ void powerDown_Task(void)
 	ledStat = QUICKFLASH;
 	printf("power-down detected!!!\r\n"); 
 	
-//	//FLASH存储掉电标记
-//	EeBuf[0]=0x11;
-//	HDEE_Write( 0x00 , EeBuf , HDEE_EeSize );
+	//FLASH存储掉电标记
+	EeBuf[0]=0x11;
+	HDEE_Write( 0x00 , EeBuf , HDEE_EeSize );
 	
 	UART_RECEIVE_FLAG = 0;
 	UART_RECEIVE_LENGTH = 0;
@@ -321,11 +327,11 @@ void powerDown_Task(void)
 	
 	for(i=0;i<3;i++)
 	{
-		//node_gpio_set(wake, wakeup);  //唤醒
+		node_gpio_set(wake, wakeup);  //唤醒
 		
 		printf("\r\n===Data Report===\r\n");
 		printf("-report heartbeat: \r\n");
-		send_result = node_block_send(CONFIRM_TYPE | 0x01, (uint8_t*)"powerdown", 9, &head);
+		send_result = node_block_send(UNCONFIRM_TYPE | 0x01, (uint8_t*)"powerdown", 9, &head);
 		
 		node_gpio_set(wake, sleep);  //休眠
 		if(logLevel == 2)
@@ -359,15 +365,63 @@ void powerDown_Task(void)
 			printf(" ERROR: %d \r\n",send_result); 
 		}				
 	}
-
 	
+	//上报完成后静默,等待上电后复位系统
+	ledStat = OFF;
+	while(Gpio_GetIO(0, 3)==0)
+	{
+	}	
+	__NVIC_SystemReset();
 }
 
 void powerOn_Task(void)
 {
+	down_list_t *head = NULL;
+	execution_status_t send_result;
+		
+	//上报掉电恢复状态
+	UART_RECEIVE_FLAG = 0;
+	UART_RECEIVE_LENGTH = 0;
+	memset(UART_RECEIVE_BUFFER, 0, sizeof(UART_RECEIVE_BUFFER));
 	
-	//FLASH读取掉电标记
+	node_join_successfully=1;
 	
+	node_gpio_set(wake, wakeup);  //唤醒
+	
+	printf("\r\n===Data Report===\r\n");
+	printf("-report heartbeat: \r\n");
+	send_result = node_block_send(CONFIRM_TYPE | 0x03, (uint8_t*)"recover", 7, &head);
+	
+	if(logLevel == 2)
+	{
+		timeout_start_flag = true;
+		while(!UART_RECEIVE_FLAG)
+		{
+			if(true == time_out_break_ms(1000))
+			{
+				break;
+			}
+		}
+		if(UART_RECEIVE_FLAG)
+		{
+			DEBUG_PRINTF("%s\r\n",UART_RECEIVE_BUFFER);
+			UART_RECEIVE_FLAG = 0;
+			UART_RECEIVE_LENGTH = 0;
+			memset(UART_RECEIVE_BUFFER, 0, sizeof(UART_RECEIVE_BUFFER));
+			
+		}
+	}
+	
+	system_delay_ms(200);  //等待模块日志输出完成
+	
+	if(send_result == 1)
+	{
+		printf(" OK\r\n"); 
+	}
+	else
+	{
+		printf(" ERROR: %d \r\n",send_result); 
+	}	
 }
 
 void factoryTest_Task(void)
@@ -376,10 +430,16 @@ void factoryTest_Task(void)
 }
 
 void pdRecovery_Judge(void)
-{
-	//powerDownFlag = 0;
+{	
+	//读取掉电标记
 	HDEE_Read( 0x00 , EeBuf , HDEE_EeSize );
-	if(EeBuf[0]==0x11) printf("===recover from powerdown===\r\n");
+	
+	//掉电恢复
+	if(EeBuf[0]==0x11) 
+	{
+		printf("===recover from powerdown===\r\n");
+		powerOnFlag = 1;
+	}
 	else printf("===nomal power on===\r\n");
 	
 }

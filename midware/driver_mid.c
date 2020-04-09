@@ -459,18 +459,6 @@ void LptInt(void)
 		Lpt_ClearIntFlag();
 		RxDoneFlag = 1;  //串口接收完成标志
 		Lpt_Stop();
-		
-//		//Debug Info Print
-//		if(logLevel == 2)
-//		{
-//			if(find_string(UART_RECEIVE_BUFFER, (uint8_t *)"\r\n")!=NULL)  //若为指令响应则换行，若为数据输出不换行
-//			{
-//				printf("\r\n");
-//			}		
-//			//printf("[timestp]");
-//			//printf("\033[0;37m%-10d  \33[0m",(uint32_t)GET_SYSTEM_TIME);
-//			printf("-receive: %s",UART_RECEIVE_BUFFER);
-//		}
 	}
 }
 
@@ -596,7 +584,6 @@ void Adt5CompACalllback(void)
 	{
 		if(Gpio_GetIO(0, 3)==0 && powerLowFlag==1) 
 		{	
-			vdetectEnable = 0;	
 			powerDown_Task();
 		}
 		if(Gpio_GetIO(0, 3)==0) 

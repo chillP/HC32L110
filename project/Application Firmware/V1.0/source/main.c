@@ -147,14 +147,7 @@ int32_t main(void)
 			networkConnect_Task();
 		}
 		else
-		{
-			//掉电处理
-			if(powerDownFlag)
-			{
-				powerDownFlag = 0;
-				powerDown_Task();
-			}
-			
+		{			
 			//掉电恢复
 			if(powerOnFlag)
 			{
@@ -173,8 +166,9 @@ int32_t main(void)
 			//告警上报
 			if(errorReportFlag)
 			{
-				if(errorReport_Task())
-					errorReportFlag = 1;
+				if(errorReportFlag)
+					errorReport_Task();
+					
 			}
 				
 			//心跳上报
