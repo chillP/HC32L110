@@ -27,7 +27,8 @@ long hexToDec(char *source)
     int i, len;
  
     len = strlen(source);
-    for(i=len-1; i>=0; i--)
+    //len = 2;
+	for(i=len-1; i>=0; i--)
     {
         sum += t * getIndexOfSigns(*(source + i));
         t *= 16;

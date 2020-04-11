@@ -37,6 +37,7 @@ dataRecordType ch4DataBuf;
 uint8_t getDataBuf[13];
 uint8_t getCh4Cmd[23]={"*0401000000000000FA\r\n"};
 uint8_t heartBeatBuf[34]={"0100000000000000000000000000000000"};
+uint8_t deveuiBuf[50] = {0};
 
 bool alarmReportFlag_Lel=0;
 bool alarmReportFlag_Sensor=0;
@@ -75,7 +76,7 @@ void getSensorData_Task(void)
 {
 	uint8_t checkSum = 0x00;
 	uint16_t ch4Data = 0;
-	char hexData[2];
+	char hexData[2] = "00";
 	int i=0;
 	
 	//不论成功与否，进入即累加
@@ -112,6 +113,7 @@ void getSensorData_Task(void)
 	hexData[1]=getDataBuf[4];
 	ch4Data = hexToDec(hexData);
 	
+
 	hexData[0]=getDataBuf[5];
 	hexData[1]=getDataBuf[6];
 	ch4Data += hexToDec(hexData)*256;
@@ -300,9 +302,93 @@ void heartBeatReport_Task(void)
 	}	
 }
 
-bool errorReport_Task(void)
+void errorReport_Task(void)
 {
-	return 1;
+	down_list_t *head = NULL;
+	execution_status_t send_result;
+	uint8_t i=0;
+	uint16_t seed = 0;
+	uint16_t random_t = 0;
+	char hexData[2];
+	
+	for(i=0;i<3;i++)
+	{
+		//上报掉电恢复状态
+		UART_RECEIVE_FLAG = 0;
+		UART_RECEIVE_LENGTH = 0;
+		memset(UART_RECEIVE_BUFFER, 0, sizeof(UART_RECEIVE_BUFFER));
+		
+		node_join_successfully=1;
+		
+		node_gpio_set(wake, wakeup);  //唤醒
+		
+		printf("\r\n===PowerRecovery Report===\r\n");
+		send_result = node_block_send(CONFIRM_TYPE | 0x07, (uint8_t*)"3400", 4, &head);
+		
+		if(logLevel == 2)
+		{
+			timeout_start_flag = true;
+			while(!UART_RECEIVE_FLAG)
+			{
+				if(true == time_out_break_ms(1000))
+				{
+					break;
+				}
+			}
+			if(UART_RECEIVE_FLAG)
+			{
+				DEBUG_PRINTF("%s\r\n",UART_RECEIVE_BUFFER);
+				UART_RECEIVE_FLAG = 0;
+				UART_RECEIVE_LENGTH = 0;
+				memset(UART_RECEIVE_BUFFER, 0, sizeof(UART_RECEIVE_BUFFER));
+				
+			}
+		}
+		
+		system_delay_ms(200);  //等待模块日志输出完成
+		
+		if(send_result == 1)
+		{
+			printf(" OK\r\n"); 
+			break;
+		}
+		else
+		{
+			
+			printf(" ERROR: %d \r\n",send_result); 
+			//随机延时
+			random_t = rand() % 400 +300;  //生成随机数
+			printf("\r\n-delay %d ms\r\n",random_t*10);
+			
+			timeout_start_flag = true;
+			while(1)
+			{
+				if(true == time_out_break_ms(random_t*10))
+				{
+					break;
+				}
+			}		
+		}			
+	}	
+	
+	if(alarmReportFlag_Lel)
+	{
+		
+	}
+	if(alarmReportFlag_Sensor)
+	{
+		
+	}
+	if(statReportFlag_Mute)
+	{
+		
+	}
+	if(statReportFlag_Stest)
+	{
+
+	}
+	
+	
 }
 
 void powerDown_Task(void)
@@ -310,7 +396,9 @@ void powerDown_Task(void)
 	uint8_t i=0;
 	down_list_t *head = NULL;
 	execution_status_t send_result;
-	
+	uint16_t seed = 0;
+	uint16_t random_t = 0;
+	char hexData[2];	
 	
 	ledStat = QUICKFLASH;
 	printf("power-down detected!!!\r\n"); 
@@ -325,13 +413,34 @@ void powerDown_Task(void)
 	
 	node_join_successfully=1;
 	
+
+	//随机数种子生成              
+	hexData[0]=deveuiBuf[22];
+	hexData[1]=deveuiBuf[23];
+	
+	seed = hexToDec(hexData);
+	srand( seed );                  
+	
 	for(i=0;i<3;i++)
 	{
+		
+		//随机延时(100-200-300)
+		random_t = rand() % 100 +80*i;  //生成随机数
+		printf("\r\n-delay %d ms\r\n",random_t*100);
+		
+		timeout_start_flag = true;
+		while(1)
+		{
+			if(true == time_out_break_ms(random_t*100))
+			{
+				break;
+			}
+		}	
+		
 		node_gpio_set(wake, wakeup);  //唤醒
 		
-		printf("\r\n===Data Report===\r\n");
-		printf("-report heartbeat: \r\n");
-		send_result = node_block_send(UNCONFIRM_TYPE | 0x01, (uint8_t*)"powerdown", 9, &head);
+		printf("\r\n===PowerDown Report===\r\n");
+		send_result = node_block_send(UNCONFIRM_TYPE | 0x01, (uint8_t*)"34ff", 4, &head);
 		
 		node_gpio_set(wake, sleep);  //休眠
 		if(logLevel == 2)
@@ -363,7 +472,8 @@ void powerDown_Task(void)
 		else
 		{
 			printf(" ERROR: %d \r\n",send_result); 
-		}				
+		}		
+		
 	}
 	
 	//上报完成后静默,等待上电后复位系统
@@ -371,57 +481,85 @@ void powerDown_Task(void)
 	while(Gpio_GetIO(0, 3)==0)
 	{
 	}	
-	__NVIC_SystemReset();
+	//__NVIC_SystemReset();
+	NVIC_SystemReset();
 }
 
 void powerOn_Task(void)
 {
 	down_list_t *head = NULL;
 	execution_status_t send_result;
-		
-	//上报掉电恢复状态
-	UART_RECEIVE_FLAG = 0;
-	UART_RECEIVE_LENGTH = 0;
-	memset(UART_RECEIVE_BUFFER, 0, sizeof(UART_RECEIVE_BUFFER));
+	uint8_t i=0;
+	uint16_t seed = 0;
+	uint16_t random_t = 0;
+	char hexData[2];	
 	
-	node_join_successfully=1;
+	//随机数种子生成              
+	hexData[0]=deveuiBuf[22];
+	hexData[1]=deveuiBuf[23];
 	
-	node_gpio_set(wake, wakeup);  //唤醒
+	seed = hexToDec(hexData);
+	srand( seed );          
 	
-	printf("\r\n===Data Report===\r\n");
-	printf("-report heartbeat: \r\n");
-	send_result = node_block_send(CONFIRM_TYPE | 0x03, (uint8_t*)"recover", 7, &head);
-	
-	if(logLevel == 2)
+	for(i=0;i<3;i++)
 	{
+		//随机延时
+		random_t = rand() % 400 +300;  //生成随机数
+		printf("\r\n-delay %d ms\r\n",random_t*10);
+		
 		timeout_start_flag = true;
-		while(!UART_RECEIVE_FLAG)
+		while(1)
 		{
-			if(true == time_out_break_ms(1000))
+			if(true == time_out_break_ms(random_t*10))
 			{
 				break;
 			}
-		}
-		if(UART_RECEIVE_FLAG)
+		}	
+		
+		//上报掉电恢复状态
+		UART_RECEIVE_FLAG = 0;
+		UART_RECEIVE_LENGTH = 0;
+		memset(UART_RECEIVE_BUFFER, 0, sizeof(UART_RECEIVE_BUFFER));
+		
+		node_join_successfully=1;
+		
+		node_gpio_set(wake, wakeup);  //唤醒
+		
+		printf("\r\n===PowerRecovery Report===\r\n");
+		send_result = node_block_send(CONFIRM_TYPE | 0x07, (uint8_t*)"3400", 4, &head);
+		
+		if(logLevel == 2)
 		{
-			DEBUG_PRINTF("%s\r\n",UART_RECEIVE_BUFFER);
-			UART_RECEIVE_FLAG = 0;
-			UART_RECEIVE_LENGTH = 0;
-			memset(UART_RECEIVE_BUFFER, 0, sizeof(UART_RECEIVE_BUFFER));
-			
+			timeout_start_flag = true;
+			while(!UART_RECEIVE_FLAG)
+			{
+				if(true == time_out_break_ms(1000))
+				{
+					break;
+				}
+			}
+			if(UART_RECEIVE_FLAG)
+			{
+				DEBUG_PRINTF("%s\r\n",UART_RECEIVE_BUFFER);
+				UART_RECEIVE_FLAG = 0;
+				UART_RECEIVE_LENGTH = 0;
+				memset(UART_RECEIVE_BUFFER, 0, sizeof(UART_RECEIVE_BUFFER));
+				
+			}
 		}
+		
+		system_delay_ms(200);  //等待模块日志输出完成
+		
+		if(send_result == 1)
+		{
+			printf(" OK\r\n"); 
+			break;
+		}
+		else
+		{
+			printf(" ERROR: %d \r\n",send_result); 
+		}			
 	}
-	
-	system_delay_ms(200);  //等待模块日志输出完成
-	
-	if(send_result == 1)
-	{
-		printf(" OK\r\n"); 
-	}
-	else
-	{
-		printf(" ERROR: %d \r\n",send_result); 
-	}	
 }
 
 void factoryTest_Task(void)
@@ -517,16 +655,22 @@ void getDeveui(void)
 	uint8_t return_data[50] = {0};
 	uint16_t seed = 0;
 	uint16_t random_t = 0;
+	uint8_t i = 0;
 	char hexData[2];
 	
 	transfer_inquire_command("AT+DEVEUI?", return_data);
-
+	for(i=0;i<50;i++)
+	{
+		deveuiBuf[i]=return_data[i];
+	}
+	
+	
 	hexData[0]=return_data[22];
 	hexData[1]=return_data[23];
 	
 	seed = hexToDec(hexData);
 	srand( seed );                  
-  random_t = rand() % 120;  //生成0-120的随机数
+	random_t = rand() % 120;  //生成0-120的随机数
 	printf("-delay %d seconds\r\n",random_t);
 	
 	timeout_start_flag = true;

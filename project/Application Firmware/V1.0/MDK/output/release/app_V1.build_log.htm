@@ -3,66 +3,62 @@
 <pre>
 <h1>礦ision Build Log</h1>
 <h2>Tool Versions:</h2>
-IDE-Version: μVision V5.28.0.0
-Copyright (C) 2019 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: GU Microsoft, Microsoft, LIC=1WS45-GQ4DB-EXIUX-H8FDX-8PH1J-G6Z60
+IDE-Version: μVision V5.17.0.0
+Copyright (C) 2015 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Gu cj, Microsoft, LIC=9WSBS-LUR6E-T3ZMI-T3M2N-JECBR-FWHXA
  
 Tool Versions:
-Toolchain:       MDK-ARM Professional  Version: 5.28.0.0
-Toolchain Path:  D:\Useful\Keil for ARM V5.28\ARM\ARMCC\Bin
-C Compiler:      Armcc.exe V5.06 update 6 (build 750)
-Assembler:       Armasm.exe V5.06 update 6 (build 750)
-Linker/Locator:  ArmLink.exe V5.06 update 6 (build 750)
-Library Manager: ArmAr.exe V5.06 update 6 (build 750)
-Hex Converter:   FromElf.exe V5.06 update 6 (build 750)
-CPU DLL:         SARMCM3.DLL V5.28.0.0
-Dialog DLL:      DARMCM1.DLL V1.19.2.0
-Target DLL:      Segger\JL2CM3.dll V2.99.36.0
-Dialog DLL:      TARMCM1.DLL V1.14.1.0
+Toolchain:       MDK-ARM Standard  Version: 5.17
+Toolchain Path:  D:\Software\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 1 (build 61)
+Assembler:       Armasm.exe V5.06 update 1 (build 61)
+Linker/Locator:  ArmLink.exe V5.06 update 1 (build 61)
+Library Manager: ArmAr.exe V5.06 update 1 (build 61)
+Hex Converter:   FromElf.exe V5.06 update 1 (build 61)
+CPU DLL:         SARMCM3.DLL V5.17
+Dialog DLL:      DARMCM1.DLL V1.12.0.0
+Target DLL:      Segger\JL2CM3.dll V2.99.16.0
+Dialog DLL:      TARMCM1.DLL V1.9.0.0
  
 <h2>Project:</h2>
-E:\工作\霍尼燃气检测\Git code\HC32L110\project\Application Firmware\V1.0\MDK\App_V1.0.uvprojx
-Project File Date:  04/09/2020
+G:\工作\燃气检测软件\简单代码框架1\LSD4WN1031-01D0_Firmware_Rev1.0\project\Application Firmware\V1.0\MDK\App_V1.0.uvprojx
+Project File Date:  04/11/2020
 
 <h2>Output:</h2>
-*** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Useful\Keil for ARM V5.28\ARM\ARMCC\Bin'
+*** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Software\Keil_v5\ARM\ARMCC\Bin'
 Build target 'App_V1.0'
 compiling app.c...
-..\..\..\..\application\app.c(76): warning:  #177-D: variable "checkSum"  was declared but never referenced
+..\..\..\..\application\app.c(77): warning:  #177-D: variable "checkSum" was declared but never referenced
   	uint8_t checkSum = 0x00;
-..\..\..\..\application\app.c(449): warning:  #177-D: variable "handledFlag"  was declared but never referenced
+..\..\..\..\application\app.c(310): warning:  #177-D: variable "seed" was declared but never referenced
+  	uint16_t seed = 0;
+..\..\..\..\application\app.c(312): warning:  #177-D: variable "hexData" was declared but never referenced
+  	char hexData[2];
+..\..\..\..\application\app.c(587): warning:  #177-D: variable "handledFlag" was declared but never referenced
   	static bool handledFlag=0;
-..\..\..\..\application\app.c: 2 warnings, 0 errors
-compiling main.c...
-..\source\main.c(109): warning:  #177-D: variable "led"  was declared but never referenced
-  	uint8_t led=0;
-..\source\main.c: 1 warning, 0 errors
+..\..\..\..\application\app.c: 4 warnings, 0 errors
 linking...
-Program Size: Code=30516 RO-data=1040 RW-data=268 ZI-data=3116  
-".\output\release\app_V1.0" - 0 Error(s), 3 Warning(s).
+Program Size: Code=26596 RO-data=680 RW-data=284 ZI-data=3356  
+After Build - User command #1: D:\Software\Keil_v5\\ARM\ARMCC\bin\fromelf.exe --bin --output=Bin\app_V1.bin .\output\release\app_V1.0
+".\output\release\app_V1.0" - 0 Error(s), 4 Warning(s).
 
 <h2>Software Packages used:</h2>
 
 Package Vendor: ARM
-                http://www.keil.com/pack/ARM.CMSIS.5.5.1.pack
-                ARM.CMSIS.5.5.1
+                http://www.keil.com/pack/ARM.CMSIS.4.5.0.pack
+                ARM::CMSIS:CORE:4.3.0
                 CMSIS (Cortex Microcontroller Software Interface Standard)
-   * Component: CORE Version: 5.2.0
-
-Package Vendor: HDSC
-                https://raw.githubusercontent.com/hdscmcu/pack/master/HDSC.HC32L110.1.0.3.pack
-                HDSC.HC32L110.1.0.3
-                HC32L110 ARM Cortex-M0+ Device Family Pack
+   * Component: CORE Version: 4.3.0
 
 <h2>Collection of Component include folders:</h2>
-  .\RTE\_App_V1.0
-  D:\Useful\Keil for ARM V5.28\ARM\CMSIS\5.5.1\CMSIS\Core\Include
-  D:\Useful\Keil for ARM V5.28\HDSC\HC32L110\1.0.3\Device\Include
+  G:\工作\燃气检测软件\简单代码框架1\LSD4WN1031-01D0_Firmware_Rev1.0\project\Application Firmware\V1.0\MDK\RTE
+  D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include
+  D:\Software\Keil_v5\ARM\PACK\HDSC\HC32L110\1.0.3\Device\Include
 
 <h2>Collection of Component Files used:</h2>
 
-   * Component: ARM::CMSIS:CORE:5.2.0
-Build Time Elapsed:  00:00:03
+   * Component: ARM::CMSIS:CORE:4.3.0
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

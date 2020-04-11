@@ -11,7 +11,7 @@ void lorawanResetAndConfig(void);
 void getSensorData_Task(void);
 void networkConnect_Task(void);
 void heartBeatReport_Task(void);
-bool errorReport_Task(void);
+void errorReport_Task(void);
 void powerDown_Task(void);
 void powerOn_Task(void);
 void factoryTest_Task(void);
