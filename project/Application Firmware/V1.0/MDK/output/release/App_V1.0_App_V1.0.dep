@@ -46,9 +46,9 @@ I (D:\Useful\Keil for ARM V5.28\ARM\ARMCC\include\stdbool.h)(0x5CEB79DE)
 I (D:\Useful\Keil for ARM V5.28\ARM\ARMCC\include\stdlib.h)(0x5CEB79E2)
 I (..\..\..\..\midware\driver_mid.h)(0x5E8F2C6F)
 I (..\..\..\..\driver\inc\adt.h)(0x5E8DF576)
-I (..\..\..\..\lorawan\LSD_LoRaWAN_ICA_Driver.h)(0x5E92E56A)
+I (..\..\..\..\lorawan\LSD_LoRaWAN_ICA_Driver.h)(0x5E933985)
 I (..\..\..\..\midware\HDEE5.h)(0x5E8DF576)
-F (..\..\..\..\application\app.c)(0x5E92B596)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\..\..\..\mcu\common -I ..\source -I ..\..\..\..\driver\inc -I ..\..\..\..\midware -I ..\..\..\..\lorawan -I ..\..\..\..\application-I.\RTE\_App_V1.0-I"D:\Useful\Keil for ARM V5.28\ARM\CMSIS\5.5.1\CMSIS\Core\Include"-I"D:\Useful\Keil for ARM V5.28\HDSC\HC32L110\1.0.3\Device\Include"-D__UVISION_VERSION="528" -D_RTE_-o .\output\release\app.o --omf_browse .\output\release\app.crf --depend .\output\release\app.d)
+F (..\..\..\..\application\app.c)(0x5E9336A3)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\..\..\..\mcu\common -I ..\source -I ..\..\..\..\driver\inc -I ..\..\..\..\midware -I ..\..\..\..\lorawan -I ..\..\..\..\application-I.\RTE\_App_V1.0-I"D:\Useful\Keil for ARM V5.28\ARM\CMSIS\5.5.1\CMSIS\Core\Include"-I"D:\Useful\Keil for ARM V5.28\HDSC\HC32L110\1.0.3\Device\Include"-D__UVISION_VERSION="528" -D_RTE_-o .\output\release\app.o --omf_browse .\output\release\app.crf --depend .\output\release\app.d)
 I (D:\Useful\Keil for ARM V5.28\ARM\ARMCC\include\math.h)(0x5CEB79D6)
 I (..\..\..\..\application\app.h)(0x5E92B596)
 I (D:\Useful\Keil for ARM V5.28\ARM\ARMCC\include\stdbool.h)(0x5CEB79DE)
@@ -73,7 +73,7 @@ I (..\..\..\..\driver\inc\interrupts_hc32l110.h)(0x5E8F2C6F)
 I (..\..\..\..\driver\inc\gpio.h)(0x5E8DF576)
 I (..\source\ddl_device.h)(0x5E8DF576)
 I (..\..\..\..\midware\commonfun.h)(0x5E8DF576)
-I (..\..\..\..\lorawan\LSD_LoRaWAN_ICA_Driver.h)(0x5E92E56A)
+I (..\..\..\..\lorawan\LSD_LoRaWAN_ICA_Driver.h)(0x5E933985)
 I (..\..\..\..\midware\HDEE5.h)(0x5E8DF576)
 I (..\..\..\..\driver\inc\pca.h)(0x5E8DF576)
 F (..\..\..\..\driver\src\ddl.c)(0x5E8DF576)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\..\..\..\mcu\common -I ..\source -I ..\..\..\..\driver\inc -I ..\..\..\..\midware -I ..\..\..\..\lorawan -I ..\..\..\..\application-I.\RTE\_App_V1.0-I"D:\Useful\Keil for ARM V5.28\ARM\CMSIS\5.5.1\CMSIS\Core\Include"-I"D:\Useful\Keil for ARM V5.28\HDSC\HC32L110\1.0.3\Device\Include"-D__UVISION_VERSION="528" -D_RTE_-o .\output\release\ddl.o --omf_browse .\output\release\ddl.crf --depend .\output\release\ddl.d)
@@ -303,7 +303,7 @@ I (..\..\..\..\driver\inc\gpio.h)(0x5E8DF576)
 I (..\source\ddl_device.h)(0x5E8DF576)
 F (..\readme.txt)(0x5E8DF576)()
 F (..\..\..\..\lorawan\LSD_LoRaWAN_ICA_Driver.c)(0x5E8DF576)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\..\..\..\mcu\common -I ..\source -I ..\..\..\..\driver\inc -I ..\..\..\..\midware -I ..\..\..\..\lorawan -I ..\..\..\..\application-I.\RTE\_App_V1.0-I"D:\Useful\Keil for ARM V5.28\ARM\CMSIS\5.5.1\CMSIS\Core\Include"-I"D:\Useful\Keil for ARM V5.28\HDSC\HC32L110\1.0.3\Device\Include"-D__UVISION_VERSION="528" -D_RTE_-o .\output\release\lsd_lorawan_ica_driver.o --omf_browse .\output\release\lsd_lorawan_ica_driver.crf --depend .\output\release\lsd_lorawan_ica_driver.d)
-I (..\..\..\..\lorawan\LSD_LoRaWAN_ICA_Driver.h)(0x5E92E56A)
+I (..\..\..\..\lorawan\LSD_LoRaWAN_ICA_Driver.h)(0x5E933985)
 I (D:\Useful\Keil for ARM V5.28\ARM\ARMCC\include\stdbool.h)(0x5CEB79DE)
 I (D:\Useful\Keil for ARM V5.28\ARM\ARMCC\include\string.h)(0x5CEB79E2)
 I (D:\Useful\Keil for ARM V5.28\ARM\ARMCC\include\stdlib.h)(0x5CEB79E2)
@@ -328,7 +328,7 @@ I (..\source\ddl_device.h)(0x5E8DF576)
 F (..\..\..\..\midware\commonfun.c)(0x5E92B596)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\..\..\..\mcu\common -I ..\source -I ..\..\..\..\driver\inc -I ..\..\..\..\midware -I ..\..\..\..\lorawan -I ..\..\..\..\application-I.\RTE\_App_V1.0-I"D:\Useful\Keil for ARM V5.28\ARM\CMSIS\5.5.1\CMSIS\Core\Include"-I"D:\Useful\Keil for ARM V5.28\HDSC\HC32L110\1.0.3\Device\Include"-D__UVISION_VERSION="528" -D_RTE_-o .\output\release\commonfun.o --omf_browse .\output\release\commonfun.crf --depend .\output\release\commonfun.d)
 I (..\..\..\..\midware\commonfun.h)(0x5E8DF576)
 I (D:\Useful\Keil for ARM V5.28\ARM\ARMCC\include\string.h)(0x5CEB79E2)
-F (..\..\..\..\midware\driver_mid.c)(0x5E92E56A)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\..\..\..\mcu\common -I ..\source -I ..\..\..\..\driver\inc -I ..\..\..\..\midware -I ..\..\..\..\lorawan -I ..\..\..\..\application-I.\RTE\_App_V1.0-I"D:\Useful\Keil for ARM V5.28\ARM\CMSIS\5.5.1\CMSIS\Core\Include"-I"D:\Useful\Keil for ARM V5.28\HDSC\HC32L110\1.0.3\Device\Include"-D__UVISION_VERSION="528" -D_RTE_-o .\output\release\driver_mid.o --omf_browse .\output\release\driver_mid.crf --depend .\output\release\driver_mid.d)
+F (..\..\..\..\midware\driver_mid.c)(0x5E933D4E)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\..\..\..\mcu\common -I ..\source -I ..\..\..\..\driver\inc -I ..\..\..\..\midware -I ..\..\..\..\lorawan -I ..\..\..\..\application-I.\RTE\_App_V1.0-I"D:\Useful\Keil for ARM V5.28\ARM\CMSIS\5.5.1\CMSIS\Core\Include"-I"D:\Useful\Keil for ARM V5.28\HDSC\HC32L110\1.0.3\Device\Include"-D__UVISION_VERSION="528" -D_RTE_-o .\output\release\driver_mid.o --omf_browse .\output\release\driver_mid.crf --depend .\output\release\driver_mid.d)
 I (D:\Useful\Keil for ARM V5.28\ARM\ARMCC\include\math.h)(0x5CEB79D6)
 I (..\..\..\..\driver\inc\ddl.h)(0x5E8DF576)
 I (..\..\..\..\mcu\common\base_types.h)(0x5E8DF576)
@@ -355,11 +355,12 @@ I (..\..\..\..\driver\inc\lpt.h)(0x5E8DF576)
 I (..\..\..\..\driver\inc\pca.h)(0x5E8DF576)
 I (..\..\..\..\midware\driver_mid.h)(0x5E8F2C6F)
 I (..\..\..\..\driver\inc\adt.h)(0x5E8DF576)
-I (..\..\..\..\lorawan\LSD_LoRaWAN_ICA_Driver.h)(0x5E92E56A)
+I (..\..\..\..\lorawan\LSD_LoRaWAN_ICA_Driver.h)(0x5E933985)
 I (D:\Useful\Keil for ARM V5.28\ARM\ARMCC\include\stdbool.h)(0x5CEB79DE)
 I (D:\Useful\Keil for ARM V5.28\ARM\ARMCC\include\stdlib.h)(0x5CEB79E2)
 I (..\..\..\..\application\app.h)(0x5E92B596)
 I (..\..\..\..\driver\inc\wdt.h)(0x5E8DF576)
+I (..\..\..\..\midware\commonfun.h)(0x5E8DF576)
 F (..\..\..\..\midware\HDEE5.c)(0x5E8DF576)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\..\..\..\mcu\common -I ..\source -I ..\..\..\..\driver\inc -I ..\..\..\..\midware -I ..\..\..\..\lorawan -I ..\..\..\..\application-I.\RTE\_App_V1.0-I"D:\Useful\Keil for ARM V5.28\ARM\CMSIS\5.5.1\CMSIS\Core\Include"-I"D:\Useful\Keil for ARM V5.28\HDSC\HC32L110\1.0.3\Device\Include"-D__UVISION_VERSION="528" -D_RTE_-o .\output\release\hdee5.o --omf_browse .\output\release\hdee5.crf --depend .\output\release\hdee5.d)
 I (..\..\..\..\mcu\common\hc32l110.h)(0x5E8DF576)
 I (D:\Useful\Keil for ARM V5.28\ARM\CMSIS\5.5.1\CMSIS\Core\Include\core_cm0plus.h)(0x5C8B5FF6)

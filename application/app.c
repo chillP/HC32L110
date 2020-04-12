@@ -267,7 +267,7 @@ void heartBeatReport_Task(void)
 	
 	printf("\r\n===Data Report===\r\n");
 	printf("-report heartbeat: \r\n");
-	send_result = node_block_send(CONFIRM_TYPE | 0x01, (uint8_t*)"01234567890123456789", 20, &head);
+	send_result = node_block_send(CONFIRM_TYPE | 0x03, heartBeatBuf, 34, &head);
 	
 	//node_gpio_set(wake, sleep);  //休眠
 	if(logLevel == 2)
@@ -310,7 +310,9 @@ void errorReport_Task(void)
 	uint16_t seed = 0;
 	uint16_t random_t = 0;
 	char hexData[2];
-	
+	uint8_t lelReportBuf[12]={"310000000000"};
+	uint8_t statReportBuf[4]={"3300"};
+
 	for(i=0;i<3;i++)
 	{
 		//上报掉电恢复状态
@@ -322,8 +324,32 @@ void errorReport_Task(void)
 		
 		node_gpio_set(wake, wakeup);  //唤醒
 		
-		printf("\r\n===PowerRecovery Report===\r\n");
-		send_result = node_block_send(CONFIRM_TYPE | 0x07, (uint8_t*)"3400", 4, &head);
+		printf("\r\n===Error Report===\r\n");
+		
+		if(alarmReportFlag_Lel|alarmReportFlag_Sensor)
+		{
+			if(alarmReportFlag_Lel) printf("-gas lel warning!\r\n");
+			if(alarmReportFlag_Sensor) printf("-sensor fault!\r\n");
+			//报警标志
+			lelReportBuf[3] = uart0_RxBuf[2];	
+			
+			//浓度数据
+			for(i=0;i<4;i++)
+			{
+				lelReportBuf[i+8] = uart0_RxBuf[i+4];
+			}
+			
+			//上报
+			send_result = node_block_send(CONFIRM_TYPE | 0x07, lelReportBuf, 12, &head);
+		}
+		if(statReportFlag_Mute|statReportFlag_Stest)
+		{
+			if(statReportFlag_Mute) printf("-muting now!\r\n");
+			if(statReportFlag_Stest) printf("-self testing!\r\n");
+			//状态标志
+			lelReportBuf[3] = uart0_RxBuf[3];
+			send_result = node_block_send(CONFIRM_TYPE | 0x07, lelReportBuf, 4, &head);
+		}			
 		
 		if(logLevel == 2)
 		{
@@ -370,25 +396,6 @@ void errorReport_Task(void)
 			}		
 		}			
 	}	
-	
-	if(alarmReportFlag_Lel)
-	{
-		
-	}
-	if(alarmReportFlag_Sensor)
-	{
-		
-	}
-	if(statReportFlag_Mute)
-	{
-		
-	}
-	if(statReportFlag_Stest)
-	{
-
-	}
-	
-	
 }
 
 void powerDown_Task(void)

@@ -6,9 +6,9 @@ Memory Map of the image
 
   Image Entry point : 0x000000c1
 
-  Load Region LR_IROM1 (Base: 0x00000000, Size: 0x00006b70, Max: 0x00008000, ABSOLUTE)
+  Load Region LR_IROM1 (Base: 0x00000000, Size: 0x00006cf0, Max: 0x00008000, ABSOLUTE)
 
-    Execution Region ER_IROM1 (Exec base: 0x00000000, Load base: 0x00000000, Size: 0x00006a4c, Max: 0x00008000, ABSOLUTE)
+    Execution Region ER_IROM1 (Exec base: 0x00000000, Load base: 0x00000000, Size: 0x00006bc8, Max: 0x00008000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -171,175 +171,175 @@ Memory Map of the image
     0x00002758   0x00002758   0x00000060   Code   RO         2130    i.Lpuart_RxIntCallback  driver_mid.o
     0x000027b8   0x000027b8   0x0000001a   Code   RO         2131    i.Lpuart_send_data  driver_mid.o
     0x000027d2   0x000027d2   0x00000016   Code   RO         2132    i.Lpuart_send_string  driver_mid.o
-    0x000027e8   0x000027e8   0x00000040   Code   RO         2133    i.PcaInt            driver_mid.o
-    0x00002828   0x00002828   0x00000088   Code   RO         1328    i.Pca_CapDataHSet   pca.o
-    0x000028b0   0x000028b0   0x0000008c   Code   RO         1329    i.Pca_CapDataLSet   pca.o
-    0x0000293c   0x0000293c   0x000002d0   Code   RO         1330    i.Pca_CapModConfig  pca.o
-    0x00002c0c   0x00002c0c   0x00000018   Code   RO         1331    i.Pca_ClearCntIntFlag  pca.o
-    0x00002c24   0x00002c24   0x00000070   Code   RO         1332    i.Pca_ClearIntFlag  pca.o
-    0x00002c94   0x00002c94   0x0000001c   Code   RO         1334    i.Pca_Cnt16Set      pca.o
-    0x00002cb0   0x00002cb0   0x00000010   Code   RO         1340    i.Pca_GetCntIntFlag  pca.o
-    0x00002cc0   0x00002cc0   0x00000054   Code   RO         1341    i.Pca_GetIntFlag    pca.o
-    0x00002d14   0x00002d14   0x00000010   Code   RO         1342    i.Pca_IRQHandler    pca.o
-    0x00002d24   0x00002d24   0x0000005c   Code   RO         1343    i.Pca_Init          pca.o
-    0x00002d80   0x00002d80   0x00000018   Code   RO         1344    i.Pca_Run           pca.o
-    0x00002d98   0x00002d98   0x00000018   Code   RO         1345    i.Pca_Stop          pca.o
-    0x00002db0   0x00002db0   0x000000ac   Code   RO         2135    i.Pca_led_init      driver_mid.o
-    0x00002e5c   0x00002e5c   0x0000007c   Code   RO         2136    i.SysTick_Handler   driver_mid.o
-    0x00002ed8   0x00002ed8   0x0000004c   Code   RO         2137    i.SysTick_init      driver_mid.o
-    0x00002f24   0x00002f24   0x00000010   Code   RO           12    i.SystemCoreClockUpdate  system_hc32l110.o
-    0x00002f34   0x00002f34   0x00000034   Code   RO           13    i.SystemInit        system_hc32l110.o
-    0x00002f68   0x00002f68   0x0000003c   Code   RO          895    i.Tim_IRQHandler    bt.o
-    0x00002fa4   0x00002fa4   0x00000002   Code   RO         2138    i.Uart0_ErrIntCallback  driver_mid.o
-    0x00002fa6   0x00002fa6   0x00000002   PAD
-    0x00002fa8   0x00002fa8   0x00000060   Code   RO         2139    i.Uart0_RxIntCallback  driver_mid.o
-    0x00003008   0x00003008   0x00000164   Code   RO         2140    i.Uart0_init        driver_mid.o
-    0x0000316c   0x0000316c   0x00000018   Code   RO         2141    i.Uart0_send_string  driver_mid.o
-    0x00003184   0x00003184   0x00000002   Code   RO         2142    i.Uart1_ErrIntCallback  driver_mid.o
-    0x00003186   0x00003186   0x00000002   PAD
-    0x00003188   0x00003188   0x00000060   Code   RO         2143    i.Uart1_RxIntCallback  driver_mid.o
-    0x000031e8   0x000031e8   0x00000150   Code   RO         2144    i.Uart1_init        driver_mid.o
-    0x00003338   0x00003338   0x00000050   Code   RO         1101    i.UartDeInitNvic    uart.o
-    0x00003388   0x00003388   0x00000030   Code   RO         1102    i.UartGetInternDataPtr  uart.o
-    0x000033b8   0x000033b8   0x00000030   Code   RO         1103    i.UartInitNvic      uart.o
-    0x000033e8   0x000033e8   0x0000005a   Code   RO         1105    i.Uart_ClrStatus    uart.o
-    0x00003442   0x00003442   0x00000030   Code   RO         1107    i.Uart_EnableFunc   uart.o
-    0x00003472   0x00003472   0x0000004c   Code   RO         1108    i.Uart_EnableIrq    uart.o
-    0x000034be   0x000034be   0x00000066   Code   RO         1110    i.Uart_GetStatus    uart.o
-    0x00003524   0x00003524   0x00000074   Code   RO         1111    i.Uart_IRQHandler   uart.o
-    0x00003598   0x00003598   0x0000006e   Code   RO         1112    i.Uart_Init         uart.o
-    0x00003606   0x00003606   0x0000001e   Code   RO         1113    i.Uart_ReceiveData  uart.o
-    0x00003624   0x00003624   0x0000003e   Code   RO         1114    i.Uart_SendData     uart.o
-    0x00003662   0x00003662   0x0000007a   Code   RO         1115    i.Uart_SetBaudRate  uart.o
-    0x000036dc   0x000036dc   0x00000030   Code   RO         1117    i.Uart_SetMode      uart.o
-    0x0000370c   0x0000370c   0x00000048   Code   RO         1118    i.Uart_SetMultiMode  uart.o
-    0x00003754   0x00003754   0x00000002   Code   RO         2146    i.WdtCallback       driver_mid.o
-    0x00003756   0x00003756   0x00000002   PAD
-    0x00003758   0x00003758   0x00000010   Code   RO         1462    i.Wdt_Feed          wdt.o
-    0x00003768   0x00003768   0x0000002c   Code   RO         1463    i.Wdt_IRQHandler    wdt.o
-    0x00003794   0x00003794   0x0000004c   Code   RO         1464    i.Wdt_Init          wdt.o
-    0x000037e0   0x000037e0   0x00000014   Code   RO         1467    i.Wdt_Start         wdt.o
-    0x000037f4   0x000037f4   0x00000018   Code   RO         1468    i.Wdt_WriteWdtLoad  wdt.o
-    0x0000380c   0x0000380c   0x00000040   Code   RO         2147    i.Wdt_init          driver_mid.o
-    0x0000384c   0x0000384c   0x000000f4   Code   RO         1016    i._GpioEnableIrq    gpio.o
-    0x00003940   0x00003940   0x00000020   Code   RO         2724    i.__0printf         mc_p.l(printfa.o)
-    0x00003960   0x00003960   0x00000028   Code   RO         2726    i.__0sprintf        mc_p.l(printfa.o)
-    0x00003988   0x00003988   0x0000002e   Code   RO         2858    i.__ARM_clz         mf_p.l(depilogue.o)
-    0x000039b6   0x000039b6   0x00000032   Code   RO         2812    i.__ARM_common_ll_muluu  m_ps.l(rred.o)
-    0x000039e8   0x000039e8   0x0000001c   Code   RO          239    i.__ARM_common_switch8  app.o
-    0x00003a04   0x00003a04   0x0000002c   Code   RO         2864    i.__ARM_fpclassify  m_ps.l(fpclassify.o)
-    0x00003a30   0x00003a30   0x00000018   Code   RO          737    i.__NVIC_ClearPendingIRQ  lpuart.o
-    0x00003a48   0x00003a48   0x00000018   Code   RO         1122    i.__NVIC_ClearPendingIRQ  uart.o
-    0x00003a60   0x00003a60   0x00000018   Code   RO         1586    i.__NVIC_ClearPendingIRQ  adt.o
-    0x00003a78   0x00003a78   0x00000078   Code   RO          379    i.__NVIC_SetPriority  interrupts_hc32l110.o
-    0x00003af0   0x00003af0   0x00000078   Code   RO          562    i.__NVIC_SetPriority  clk.o
-    0x00003b68   0x00003b68   0x00000078   Code   RO          738    i.__NVIC_SetPriority  lpuart.o
-    0x00003be0   0x00003be0   0x00000078   Code   RO         1123    i.__NVIC_SetPriority  uart.o
-    0x00003c58   0x00003c58   0x00000078   Code   RO         1587    i.__NVIC_SetPriority  adt.o
-    0x00003cd0   0x00003cd0   0x00000078   Code   RO         2148    i.__NVIC_SetPriority  driver_mid.o
-    0x00003d48   0x00003d48   0x0000039c   Code   RO         2807    i.__ieee754_rem_pio2  m_ps.l(rred.o)
-    0x000040e4   0x000040e4   0x000000f4   Code   RO         2790    i.__kernel_cos      m_ps.l(cos_i.o)
-    0x000041d8   0x000041d8   0x000000ac   Code   RO         2866    i.__kernel_poly     m_ps.l(poly.o)
-    0x00004284   0x00004284   0x000000ec   Code   RO         2814    i.__kernel_sin      m_ps.l(sin_i.o)
-    0x00004370   0x00004370   0x0000000a   Code   RO         2794    i.__mathlib_dbl_infnan  m_ps.l(dunder.o)
-    0x0000437a   0x0000437a   0x00000010   Code   RO         2796    i.__mathlib_dbl_invalid  m_ps.l(dunder.o)
-    0x0000438a   0x0000438a   0x00000002   PAD
-    0x0000438c   0x0000438c   0x00000014   Code   RO         2799    i.__mathlib_dbl_underflow  m_ps.l(dunder.o)
-    0x000043a0   0x000043a0   0x0000000e   Code   RO         2878    i.__scatterload_copy  mc_p.l(handlers.o)
-    0x000043ae   0x000043ae   0x00000002   Code   RO         2879    i.__scatterload_null  mc_p.l(handlers.o)
-    0x000043b0   0x000043b0   0x0000000e   Code   RO         2880    i.__scatterload_zeroinit  mc_p.l(handlers.o)
-    0x000043be   0x000043be   0x00000002   PAD
-    0x000043c0   0x000043c0   0x0000000c   Code   RO         2850    i.__set_errno       mc_p.l(errno.o)
-    0x000043cc   0x000043cc   0x00000174   Code   RO         2731    i._fp_digits        mc_p.l(printfa.o)
-    0x00004540   0x00004540   0x000006ec   Code   RO         2732    i._printf_core      mc_p.l(printfa.o)
-    0x00004c2c   0x00004c2c   0x00000020   Code   RO         2733    i._printf_post_padding  mc_p.l(printfa.o)
-    0x00004c4c   0x00004c4c   0x0000002c   Code   RO         2734    i._printf_pre_padding  mc_p.l(printfa.o)
-    0x00004c78   0x00004c78   0x0000000a   Code   RO         2736    i._sputc            mc_p.l(printfa.o)
-    0x00004c82   0x00004c82   0x00000020   Code   RO          284    i.ddl_memclr        ddl.o
-    0x00004ca2   0x00004ca2   0x00000002   PAD
-    0x00004ca4   0x00004ca4   0x00000084   Code   RO         1925    i.down_data_process  lsd_lorawan_ica_driver.o
-    0x00004d28   0x00004d28   0x00000168   Code   RO          160    i.errorReport_Task  app.o
-    0x00004e90   0x00004e90   0x00000002   Code   RO          161    i.factoryTest_Task  app.o
-    0x00004e92   0x00004e92   0x00000040   Code   RO         1926    i.find_string       lsd_lorawan_ica_driver.o
-    0x00004ed2   0x00004ed2   0x0000001c   Code   RO          285    i.fputc             ddl.o
-    0x00004eee   0x00004eee   0x00000002   PAD
-    0x00004ef0   0x00004ef0   0x00000054   Code   RO         2752    i.free              mc_p.l(malloc.o)
-    0x00004f44   0x00004f44   0x00000078   Code   RO         1927    i.free_down_info_list  lsd_lorawan_ica_driver.o
-    0x00004fbc   0x00004fbc   0x000000b8   Code   RO          162    i.getDeveui         app.o
-    0x00005074   0x00005074   0x00000032   Code   RO         2099    i.getIndexOfSigns   commonfun.o
-    0x000050a6   0x000050a6   0x00000002   PAD
-    0x000050a8   0x000050a8   0x0000038c   Code   RO          163    i.getSensorData_Task  app.o
-    0x00005434   0x00005434   0x0000000c   Code   RO         2149    i.getTick           driver_mid.o
-    0x00005440   0x00005440   0x0000002c   Code   RO         1928    i.handle_cmd_return_data  lsd_lorawan_ica_driver.o
-    0x0000546c   0x0000546c   0x000001ac   Code   RO          164    i.heartBeatReport_Task  app.o
-    0x00005618   0x00005618   0x0000002c   Code   RO         2100    i.hexToDec          commonfun.o
-    0x00005644   0x00005644   0x0000007c   Code   RO         1929    i.hot_start_check   lsd_lorawan_ica_driver.o
-    0x000056c0   0x000056c0   0x00000064   Code   RO         1931    i.htoi              lsd_lorawan_ica_driver.o
-    0x00005724   0x00005724   0x000001b0   Code   RO          165    i.ledStatHandle     app.o
-    0x000058d4   0x000058d4   0x000000a0   Code   RO          166    i.lorawanResetAndConfig  app.o
-    0x00005974   0x00005974   0x0000002e   Code   RO         1932    i.lower2upper_and_remove_spaces  lsd_lorawan_ica_driver.o
-    0x000059a2   0x000059a2   0x00000002   PAD
-    0x000059a4   0x000059a4   0x000000cc   Code   RO           94    i.main              main.o
-    0x00005a70   0x00005a70   0x0000006c   Code   RO         2753    i.malloc            mc_p.l(malloc.o)
-    0x00005adc   0x00005adc   0x000000a0   Code   RO         1933    i.match_string      lsd_lorawan_ica_driver.o
-    0x00005b7c   0x00005b7c   0x000000cc   Code   RO          167    i.networkConnect_Task  app.o
-    0x00005c48   0x00005c48   0x0000010c   Code   RO         1934    i.node_block_join   lsd_lorawan_ica_driver.o
-    0x00005d54   0x00005d54   0x0000026c   Code   RO         1935    i.node_block_send   lsd_lorawan_ica_driver.o
-    0x00005fc0   0x00005fc0   0x00000024   Code   RO         1939    i.node_gpio_read    lsd_lorawan_ica_driver.o
-    0x00005fe4   0x00005fe4   0x00000054   Code   RO         1940    i.node_gpio_set     lsd_lorawan_ica_driver.o
-    0x00006038   0x00006038   0x0000002c   Code   RO         1941    i.node_hard_reset   lsd_lorawan_ica_driver.o
-    0x00006064   0x00006064   0x0000000c   Code   RO         1942    i.node_hard_reset_and_configure  lsd_lorawan_ica_driver.o
-    0x00006070   0x00006070   0x00000030   Code   RO         1943    i.node_reset_block_join  lsd_lorawan_ica_driver.o
-    0x000060a0   0x000060a0   0x0000006c   Code   RO          168    i.pdRecovery_Judge  app.o
-    0x0000610c   0x0000610c   0x00000214   Code   RO          169    i.powerDown_Task    app.o
-    0x00006320   0x00006320   0x00000188   Code   RO          170    i.powerOn_Task      app.o
-    0x000064a8   0x000064a8   0x00000084   Code   RO         1944    i.save_cmd_configure  lsd_lorawan_ica_driver.o
-    0x0000652c   0x0000652c   0x0000009c   Code   RO         2468    i.sin               m_ps.l(sin.o)
-    0x000065c8   0x000065c8   0x0000001a   Code   RO         1945    i.system_delay_ms   lsd_lorawan_ica_driver.o
-    0x000065e2   0x000065e2   0x00000002   PAD
-    0x000065e4   0x000065e4   0x0000003c   Code   RO         1946    i.time_out_break_ms  lsd_lorawan_ica_driver.o
-    0x00006620   0x00006620   0x0000014c   Code   RO         1947    i.transfer_configure_command  lsd_lorawan_ica_driver.o
-    0x0000676c   0x0000676c   0x000000dc   Code   RO         1948    i.transfer_inquire_command  lsd_lorawan_ica_driver.o
-    0x00006848   0x00006848   0x0000001c   Code   RO         1949    i.transfer_node_data  lsd_lorawan_ica_driver.o
-    0x00006864   0x00006864   0x00000008   Data   RO          563    .constdata          clk.o
-    0x0000686c   0x0000686c   0x00000004   PAD
-    0x00006870   0x00006870   0x00000030   Data   RO         2791    .constdata          m_ps.l(cos_i.o)
-    0x000068a0   0x000068a0   0x000000c8   Data   RO         2809    .constdata          m_ps.l(rred.o)
-    0x00006968   0x00006968   0x00000028   Data   RO         2815    .constdata          m_ps.l(sin_i.o)
-    0x00006990   0x00006990   0x0000009b   Data   RO         1953    .conststring        lsd_lorawan_ica_driver.o
-    0x00006a2b   0x00006a2b   0x00000001   PAD
-    0x00006a2c   0x00006a2c   0x00000020   Data   RO         2876    Region$$Table       anon$$obj.o
+    0x000027e8   0x000027e8   0x000000c8   Code   RO         2133    i.PcaInt            driver_mid.o
+    0x000028b0   0x000028b0   0x00000088   Code   RO         1328    i.Pca_CapDataHSet   pca.o
+    0x00002938   0x00002938   0x0000008c   Code   RO         1329    i.Pca_CapDataLSet   pca.o
+    0x000029c4   0x000029c4   0x000002d0   Code   RO         1330    i.Pca_CapModConfig  pca.o
+    0x00002c94   0x00002c94   0x00000018   Code   RO         1331    i.Pca_ClearCntIntFlag  pca.o
+    0x00002cac   0x00002cac   0x00000070   Code   RO         1332    i.Pca_ClearIntFlag  pca.o
+    0x00002d1c   0x00002d1c   0x0000001c   Code   RO         1334    i.Pca_Cnt16Set      pca.o
+    0x00002d38   0x00002d38   0x00000010   Code   RO         1340    i.Pca_GetCntIntFlag  pca.o
+    0x00002d48   0x00002d48   0x00000054   Code   RO         1341    i.Pca_GetIntFlag    pca.o
+    0x00002d9c   0x00002d9c   0x00000010   Code   RO         1342    i.Pca_IRQHandler    pca.o
+    0x00002dac   0x00002dac   0x0000005c   Code   RO         1343    i.Pca_Init          pca.o
+    0x00002e08   0x00002e08   0x00000018   Code   RO         1344    i.Pca_Run           pca.o
+    0x00002e20   0x00002e20   0x00000018   Code   RO         1345    i.Pca_Stop          pca.o
+    0x00002e38   0x00002e38   0x000000ac   Code   RO         2135    i.Pca_led_init      driver_mid.o
+    0x00002ee4   0x00002ee4   0x0000007c   Code   RO         2136    i.SysTick_Handler   driver_mid.o
+    0x00002f60   0x00002f60   0x0000004c   Code   RO         2137    i.SysTick_init      driver_mid.o
+    0x00002fac   0x00002fac   0x00000010   Code   RO           12    i.SystemCoreClockUpdate  system_hc32l110.o
+    0x00002fbc   0x00002fbc   0x00000034   Code   RO           13    i.SystemInit        system_hc32l110.o
+    0x00002ff0   0x00002ff0   0x0000003c   Code   RO          895    i.Tim_IRQHandler    bt.o
+    0x0000302c   0x0000302c   0x00000002   Code   RO         2138    i.Uart0_ErrIntCallback  driver_mid.o
+    0x0000302e   0x0000302e   0x00000002   PAD
+    0x00003030   0x00003030   0x00000060   Code   RO         2139    i.Uart0_RxIntCallback  driver_mid.o
+    0x00003090   0x00003090   0x00000164   Code   RO         2140    i.Uart0_init        driver_mid.o
+    0x000031f4   0x000031f4   0x00000018   Code   RO         2141    i.Uart0_send_string  driver_mid.o
+    0x0000320c   0x0000320c   0x00000002   Code   RO         2142    i.Uart1_ErrIntCallback  driver_mid.o
+    0x0000320e   0x0000320e   0x00000002   PAD
+    0x00003210   0x00003210   0x00000060   Code   RO         2143    i.Uart1_RxIntCallback  driver_mid.o
+    0x00003270   0x00003270   0x00000150   Code   RO         2144    i.Uart1_init        driver_mid.o
+    0x000033c0   0x000033c0   0x00000050   Code   RO         1101    i.UartDeInitNvic    uart.o
+    0x00003410   0x00003410   0x00000030   Code   RO         1102    i.UartGetInternDataPtr  uart.o
+    0x00003440   0x00003440   0x00000030   Code   RO         1103    i.UartInitNvic      uart.o
+    0x00003470   0x00003470   0x0000005a   Code   RO         1105    i.Uart_ClrStatus    uart.o
+    0x000034ca   0x000034ca   0x00000030   Code   RO         1107    i.Uart_EnableFunc   uart.o
+    0x000034fa   0x000034fa   0x0000004c   Code   RO         1108    i.Uart_EnableIrq    uart.o
+    0x00003546   0x00003546   0x00000066   Code   RO         1110    i.Uart_GetStatus    uart.o
+    0x000035ac   0x000035ac   0x00000074   Code   RO         1111    i.Uart_IRQHandler   uart.o
+    0x00003620   0x00003620   0x0000006e   Code   RO         1112    i.Uart_Init         uart.o
+    0x0000368e   0x0000368e   0x0000001e   Code   RO         1113    i.Uart_ReceiveData  uart.o
+    0x000036ac   0x000036ac   0x0000003e   Code   RO         1114    i.Uart_SendData     uart.o
+    0x000036ea   0x000036ea   0x0000007a   Code   RO         1115    i.Uart_SetBaudRate  uart.o
+    0x00003764   0x00003764   0x00000030   Code   RO         1117    i.Uart_SetMode      uart.o
+    0x00003794   0x00003794   0x00000048   Code   RO         1118    i.Uart_SetMultiMode  uart.o
+    0x000037dc   0x000037dc   0x00000002   Code   RO         2146    i.WdtCallback       driver_mid.o
+    0x000037de   0x000037de   0x00000002   PAD
+    0x000037e0   0x000037e0   0x00000010   Code   RO         1462    i.Wdt_Feed          wdt.o
+    0x000037f0   0x000037f0   0x0000002c   Code   RO         1463    i.Wdt_IRQHandler    wdt.o
+    0x0000381c   0x0000381c   0x0000004c   Code   RO         1464    i.Wdt_Init          wdt.o
+    0x00003868   0x00003868   0x00000014   Code   RO         1467    i.Wdt_Start         wdt.o
+    0x0000387c   0x0000387c   0x00000018   Code   RO         1468    i.Wdt_WriteWdtLoad  wdt.o
+    0x00003894   0x00003894   0x00000040   Code   RO         2147    i.Wdt_init          driver_mid.o
+    0x000038d4   0x000038d4   0x000000f4   Code   RO         1016    i._GpioEnableIrq    gpio.o
+    0x000039c8   0x000039c8   0x00000020   Code   RO         2724    i.__0printf         mc_p.l(printfa.o)
+    0x000039e8   0x000039e8   0x00000028   Code   RO         2726    i.__0sprintf        mc_p.l(printfa.o)
+    0x00003a10   0x00003a10   0x0000002e   Code   RO         2858    i.__ARM_clz         mf_p.l(depilogue.o)
+    0x00003a3e   0x00003a3e   0x00000032   Code   RO         2812    i.__ARM_common_ll_muluu  m_ps.l(rred.o)
+    0x00003a70   0x00003a70   0x0000001c   Code   RO          239    i.__ARM_common_switch8  app.o
+    0x00003a8c   0x00003a8c   0x0000002c   Code   RO         2864    i.__ARM_fpclassify  m_ps.l(fpclassify.o)
+    0x00003ab8   0x00003ab8   0x00000018   Code   RO          737    i.__NVIC_ClearPendingIRQ  lpuart.o
+    0x00003ad0   0x00003ad0   0x00000018   Code   RO         1122    i.__NVIC_ClearPendingIRQ  uart.o
+    0x00003ae8   0x00003ae8   0x00000018   Code   RO         1586    i.__NVIC_ClearPendingIRQ  adt.o
+    0x00003b00   0x00003b00   0x00000078   Code   RO          379    i.__NVIC_SetPriority  interrupts_hc32l110.o
+    0x00003b78   0x00003b78   0x00000078   Code   RO          562    i.__NVIC_SetPriority  clk.o
+    0x00003bf0   0x00003bf0   0x00000078   Code   RO          738    i.__NVIC_SetPriority  lpuart.o
+    0x00003c68   0x00003c68   0x00000078   Code   RO         1123    i.__NVIC_SetPriority  uart.o
+    0x00003ce0   0x00003ce0   0x00000078   Code   RO         1587    i.__NVIC_SetPriority  adt.o
+    0x00003d58   0x00003d58   0x00000078   Code   RO         2148    i.__NVIC_SetPriority  driver_mid.o
+    0x00003dd0   0x00003dd0   0x0000039c   Code   RO         2807    i.__ieee754_rem_pio2  m_ps.l(rred.o)
+    0x0000416c   0x0000416c   0x000000f4   Code   RO         2790    i.__kernel_cos      m_ps.l(cos_i.o)
+    0x00004260   0x00004260   0x000000ac   Code   RO         2866    i.__kernel_poly     m_ps.l(poly.o)
+    0x0000430c   0x0000430c   0x000000ec   Code   RO         2814    i.__kernel_sin      m_ps.l(sin_i.o)
+    0x000043f8   0x000043f8   0x0000000a   Code   RO         2794    i.__mathlib_dbl_infnan  m_ps.l(dunder.o)
+    0x00004402   0x00004402   0x00000010   Code   RO         2796    i.__mathlib_dbl_invalid  m_ps.l(dunder.o)
+    0x00004412   0x00004412   0x00000002   PAD
+    0x00004414   0x00004414   0x00000014   Code   RO         2799    i.__mathlib_dbl_underflow  m_ps.l(dunder.o)
+    0x00004428   0x00004428   0x0000000e   Code   RO         2878    i.__scatterload_copy  mc_p.l(handlers.o)
+    0x00004436   0x00004436   0x00000002   Code   RO         2879    i.__scatterload_null  mc_p.l(handlers.o)
+    0x00004438   0x00004438   0x0000000e   Code   RO         2880    i.__scatterload_zeroinit  mc_p.l(handlers.o)
+    0x00004446   0x00004446   0x00000002   PAD
+    0x00004448   0x00004448   0x0000000c   Code   RO         2850    i.__set_errno       mc_p.l(errno.o)
+    0x00004454   0x00004454   0x00000174   Code   RO         2731    i._fp_digits        mc_p.l(printfa.o)
+    0x000045c8   0x000045c8   0x000006ec   Code   RO         2732    i._printf_core      mc_p.l(printfa.o)
+    0x00004cb4   0x00004cb4   0x00000020   Code   RO         2733    i._printf_post_padding  mc_p.l(printfa.o)
+    0x00004cd4   0x00004cd4   0x0000002c   Code   RO         2734    i._printf_pre_padding  mc_p.l(printfa.o)
+    0x00004d00   0x00004d00   0x0000000a   Code   RO         2736    i._sputc            mc_p.l(printfa.o)
+    0x00004d0a   0x00004d0a   0x00000020   Code   RO          284    i.ddl_memclr        ddl.o
+    0x00004d2a   0x00004d2a   0x00000002   PAD
+    0x00004d2c   0x00004d2c   0x00000084   Code   RO         1925    i.down_data_process  lsd_lorawan_ica_driver.o
+    0x00004db0   0x00004db0   0x0000026c   Code   RO          160    i.errorReport_Task  app.o
+    0x0000501c   0x0000501c   0x00000002   Code   RO          161    i.factoryTest_Task  app.o
+    0x0000501e   0x0000501e   0x00000040   Code   RO         1926    i.find_string       lsd_lorawan_ica_driver.o
+    0x0000505e   0x0000505e   0x0000001c   Code   RO          285    i.fputc             ddl.o
+    0x0000507a   0x0000507a   0x00000002   PAD
+    0x0000507c   0x0000507c   0x00000054   Code   RO         2752    i.free              mc_p.l(malloc.o)
+    0x000050d0   0x000050d0   0x00000078   Code   RO         1927    i.free_down_info_list  lsd_lorawan_ica_driver.o
+    0x00005148   0x00005148   0x000000b8   Code   RO          162    i.getDeveui         app.o
+    0x00005200   0x00005200   0x00000032   Code   RO         2099    i.getIndexOfSigns   commonfun.o
+    0x00005232   0x00005232   0x00000002   PAD
+    0x00005234   0x00005234   0x0000038c   Code   RO          163    i.getSensorData_Task  app.o
+    0x000055c0   0x000055c0   0x0000000c   Code   RO         2149    i.getTick           driver_mid.o
+    0x000055cc   0x000055cc   0x0000002c   Code   RO         1928    i.handle_cmd_return_data  lsd_lorawan_ica_driver.o
+    0x000055f8   0x000055f8   0x00000194   Code   RO          164    i.heartBeatReport_Task  app.o
+    0x0000578c   0x0000578c   0x0000002c   Code   RO         2100    i.hexToDec          commonfun.o
+    0x000057b8   0x000057b8   0x0000007c   Code   RO         1929    i.hot_start_check   lsd_lorawan_ica_driver.o
+    0x00005834   0x00005834   0x00000064   Code   RO         1931    i.htoi              lsd_lorawan_ica_driver.o
+    0x00005898   0x00005898   0x000001b0   Code   RO          165    i.ledStatHandle     app.o
+    0x00005a48   0x00005a48   0x000000a0   Code   RO          166    i.lorawanResetAndConfig  app.o
+    0x00005ae8   0x00005ae8   0x0000002e   Code   RO         1932    i.lower2upper_and_remove_spaces  lsd_lorawan_ica_driver.o
+    0x00005b16   0x00005b16   0x00000002   PAD
+    0x00005b18   0x00005b18   0x000000cc   Code   RO           94    i.main              main.o
+    0x00005be4   0x00005be4   0x0000006c   Code   RO         2753    i.malloc            mc_p.l(malloc.o)
+    0x00005c50   0x00005c50   0x000000a0   Code   RO         1933    i.match_string      lsd_lorawan_ica_driver.o
+    0x00005cf0   0x00005cf0   0x000000cc   Code   RO          167    i.networkConnect_Task  app.o
+    0x00005dbc   0x00005dbc   0x0000010c   Code   RO         1934    i.node_block_join   lsd_lorawan_ica_driver.o
+    0x00005ec8   0x00005ec8   0x0000026c   Code   RO         1935    i.node_block_send   lsd_lorawan_ica_driver.o
+    0x00006134   0x00006134   0x00000024   Code   RO         1939    i.node_gpio_read    lsd_lorawan_ica_driver.o
+    0x00006158   0x00006158   0x00000054   Code   RO         1940    i.node_gpio_set     lsd_lorawan_ica_driver.o
+    0x000061ac   0x000061ac   0x0000002c   Code   RO         1941    i.node_hard_reset   lsd_lorawan_ica_driver.o
+    0x000061d8   0x000061d8   0x0000000c   Code   RO         1942    i.node_hard_reset_and_configure  lsd_lorawan_ica_driver.o
+    0x000061e4   0x000061e4   0x00000030   Code   RO         1943    i.node_reset_block_join  lsd_lorawan_ica_driver.o
+    0x00006214   0x00006214   0x0000006c   Code   RO          168    i.pdRecovery_Judge  app.o
+    0x00006280   0x00006280   0x00000214   Code   RO          169    i.powerDown_Task    app.o
+    0x00006494   0x00006494   0x00000188   Code   RO          170    i.powerOn_Task      app.o
+    0x0000661c   0x0000661c   0x00000084   Code   RO         1944    i.save_cmd_configure  lsd_lorawan_ica_driver.o
+    0x000066a0   0x000066a0   0x0000009c   Code   RO         2468    i.sin               m_ps.l(sin.o)
+    0x0000673c   0x0000673c   0x0000001a   Code   RO         1945    i.system_delay_ms   lsd_lorawan_ica_driver.o
+    0x00006756   0x00006756   0x00000002   PAD
+    0x00006758   0x00006758   0x0000003c   Code   RO         1946    i.time_out_break_ms  lsd_lorawan_ica_driver.o
+    0x00006794   0x00006794   0x0000014c   Code   RO         1947    i.transfer_configure_command  lsd_lorawan_ica_driver.o
+    0x000068e0   0x000068e0   0x000000dc   Code   RO         1948    i.transfer_inquire_command  lsd_lorawan_ica_driver.o
+    0x000069bc   0x000069bc   0x0000001c   Code   RO         1949    i.transfer_node_data  lsd_lorawan_ica_driver.o
+    0x000069d8   0x000069d8   0x00000008   Data   RO          563    .constdata          clk.o
+    0x000069e0   0x000069e0   0x00000030   Data   RO         2791    .constdata          m_ps.l(cos_i.o)
+    0x00006a10   0x00006a10   0x000000c8   Data   RO         2809    .constdata          m_ps.l(rred.o)
+    0x00006ad8   0x00006ad8   0x00000028   Data   RO         2815    .constdata          m_ps.l(sin_i.o)
+    0x00006b00   0x00006b00   0x000000a7   Data   RO         1953    .conststring        lsd_lorawan_ica_driver.o
+    0x00006ba7   0x00006ba7   0x00000001   PAD
+    0x00006ba8   0x00006ba8   0x00000020   Data   RO         2876    Region$$Table       anon$$obj.o
 
 
-    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x00006a4c, Size: 0x00000e40, Max: 0x00001000, ABSOLUTE)
+    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x00006bc8, Size: 0x00000e48, Max: 0x00001000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x20000000   0x00006a4c   0x00000004   Data   RW           14    .data               system_hc32l110.o
-    0x20000004   0x00006a50   0x00000001   Data   RW           96    .data               main.o
-    0x20000005   0x00006a51   0x00000003   PAD
-    0x20000008   0x00006a54   0x00000053   Data   RW          172    .data               app.o
-    0x2000005b   0x00006aa7   0x00000001   PAD
-    0x2000005c   0x00006aa8   0x00000004   Data   RW          286    .data               ddl.o
-    0x20000060   0x00006aac   0x0000000c   Data   RW          896    .data               bt.o
-    0x2000006c   0x00006ab8   0x00000028   Data   RW         1124    .data               uart.o
-    0x20000094   0x00006ae0   0x00000004   Data   RW         1260    .data               lpt.o
-    0x20000098   0x00006ae4   0x00000004   Data   RW         1346    .data               pca.o
-    0x2000009c   0x00006ae8   0x00000004   Data   RW         1469    .data               wdt.o
-    0x200000a0   0x00006aec   0x0000002c   Data   RW         1954    .data               lsd_lorawan_ica_driver.o
-    0x200000cc   0x00006b18   0x00000048   Data   RW         2151    .data               driver_mid.o
-    0x20000114   0x00006b60   0x00000004   Data   RW         2483    .data               mc_p.l(rand.o)
-    0x20000118   0x00006b64   0x00000004   Data   RW         2846    .data               mc_p.l(mvars.o)
-    0x2000011c   0x00006b68   0x00000004   Data   RW         2847    .data               mc_p.l(mvars.o)
-    0x20000120   0x00006b6c   0x00000004   Data   RW         2851    .data               mc_p.l(errno.o)
-    0x20000124        -       0x00000020   Zero   RW           95    .bss                main.o
-    0x20000144        -       0x0000007d   Zero   RW          171    .bss                app.o
-    0x200001c1   0x00006b70   0x00000003   PAD
-    0x200001c4        -       0x0000000c   Zero   RW          739    .bss                lpuart.o
-    0x200001d0        -       0x000000c0   Zero   RW         1588    .bss                adt.o
-    0x20000290        -       0x000000a5   Zero   RW         1952    .bss                lsd_lorawan_ica_driver.o
-    0x20000335   0x00006b70   0x00000001   PAD
-    0x20000336        -       0x0000050a   Zero   RW         2150    .bss                driver_mid.o
-    0x20000840        -       0x00000200   Zero   RW            2    HEAP                startup_hc32l110.o
-    0x20000a40        -       0x00000400   Zero   RW            1    STACK               startup_hc32l110.o
+    0x20000000   0x00006bc8   0x00000004   Data   RW           14    .data               system_hc32l110.o
+    0x20000004   0x00006bcc   0x00000001   Data   RW           96    .data               main.o
+    0x20000005   0x00006bcd   0x00000003   PAD
+    0x20000008   0x00006bd0   0x00000053   Data   RW          172    .data               app.o
+    0x2000005b   0x00006c23   0x00000001   PAD
+    0x2000005c   0x00006c24   0x00000004   Data   RW          286    .data               ddl.o
+    0x20000060   0x00006c28   0x0000000c   Data   RW          896    .data               bt.o
+    0x2000006c   0x00006c34   0x00000028   Data   RW         1124    .data               uart.o
+    0x20000094   0x00006c5c   0x00000004   Data   RW         1260    .data               lpt.o
+    0x20000098   0x00006c60   0x00000004   Data   RW         1346    .data               pca.o
+    0x2000009c   0x00006c64   0x00000004   Data   RW         1469    .data               wdt.o
+    0x200000a0   0x00006c68   0x00000030   Data   RW         1954    .data               lsd_lorawan_ica_driver.o
+    0x200000d0   0x00006c98   0x00000048   Data   RW         2151    .data               driver_mid.o
+    0x20000118   0x00006ce0   0x00000004   Data   RW         2483    .data               mc_p.l(rand.o)
+    0x2000011c   0x00006ce4   0x00000004   Data   RW         2846    .data               mc_p.l(mvars.o)
+    0x20000120   0x00006ce8   0x00000004   Data   RW         2847    .data               mc_p.l(mvars.o)
+    0x20000124   0x00006cec   0x00000004   Data   RW         2851    .data               mc_p.l(errno.o)
+    0x20000128        -       0x00000020   Zero   RW           95    .bss                main.o
+    0x20000148        -       0x0000007d   Zero   RW          171    .bss                app.o
+    0x200001c5   0x00006cf0   0x00000003   PAD
+    0x200001c8        -       0x0000000c   Zero   RW          739    .bss                lpuart.o
+    0x200001d4        -       0x000000c0   Zero   RW         1588    .bss                adt.o
+    0x20000294        -       0x000000a5   Zero   RW         1952    .bss                lsd_lorawan_ica_driver.o
+    0x20000339   0x00006cf0   0x00000001   PAD
+    0x2000033a        -       0x0000050a   Zero   RW         2150    .bss                driver_mid.o
+    0x20000844   0x00006cf0   0x00000004   PAD
+    0x20000848        -       0x00000200   Zero   RW            2    HEAP                startup_hc32l110.o
+    0x20000a48        -       0x00000400   Zero   RW            1    STACK               startup_hc32l110.o
 

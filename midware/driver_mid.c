@@ -25,7 +25,8 @@
 #include "LSD_LoRaWAN_ICA_Driver.h"
 #include "app.h"
 #include "wdt.h"
-
+#include "commonfun.h"
+ 
 //系统定时器相关
 uint32_t uwTick=0;
 uint32_t tick_1ms=0;
@@ -751,7 +752,9 @@ void PcaInt(void)
 {
 		static uint8_t powerLowFlag=0;
 		static uint8_t tick_5s=0;
-
+		uint16_t heartbeatData = 0;
+		char hexData[2] = "00";
+	
 	  if (TRUE == Pca_GetCntIntFlag())
     {
         Pca_ClearCntIntFlag();
@@ -761,6 +764,25 @@ void PcaInt(void)
 				Pca_ClearIntFlag(Module2);
 				RxDoneFlag_lpuart = 1;  //串口接收完成标志
 				Pca_Stop();
+				
+				//下行指令识别
+				if(lpuart_RxByteCnt==4)
+				{
+					if(lpuart_RxBuf[0]=='C'||lpuart_RxBuf[1]=='4')  //心跳周期设置
+					{
+							//获取浓度
+							hexData[0]=lpuart_RxBuf[2];
+							hexData[1]=lpuart_RxBuf[3];
+							heartbeatData = hexToDec(hexData);
+							
+
+							hexData[0]=lpuart_RxBuf[4];
+							hexData[1]=lpuart_RxBuf[5];
+							heartbeatData += hexToDec(hexData)*256;
+							printf("set heart-beat period to %d min\r\n",heartbeatData);  
+							
+					}
+				}
 				
 		}
 		if (TRUE == Pca_GetIntFlag(Module4))

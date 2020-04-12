@@ -31,3 +31,4 @@
 .\output\release\driver_mid.o: D:\Useful\Keil for ARM V5.28\ARM\ARMCC\Bin\..\include\stdlib.h
 .\output\release\driver_mid.o: ..\..\..\..\application\app.h
 .\output\release\driver_mid.o: ..\..\..\..\driver\inc\wdt.h
+.\output\release\driver_mid.o: ..\..\..\..\midware\commonfun.h

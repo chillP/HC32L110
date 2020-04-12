@@ -27,8 +27,32 @@ Project File Date:  04/12/2020
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Useful\Keil for ARM V5.28\ARM\ARMCC\Bin'
 Build target 'App_V1.0'
+compiling driver_mid.c...
+..\..\..\..\midware\driver_mid.c(101): warning:  #177-D: variable "ledstat"  was declared but never referenced
+  	static bool ledstat=0;
+..\..\..\..\midware\driver_mid.c(102): warning:  #177-D: variable "powerLowFlag"  was declared but never referenced
+  	static uint8_t powerLowFlag=0;
+..\..\..\..\midware\driver_mid.c(475): warning:  #550-D: variable "enResult"  was set but never used
+      en_result_t      enResult = Error;
+..\..\..\..\midware\driver_mid.c(533): warning:  #550-D: variable "enResult"  was set but never used
+      en_result_t      enResult = Error;
+..\..\..\..\midware\driver_mid.c(576): warning:  #177-D: variable "ledstat"  was declared but never referenced
+  	static bool ledstat=0;
+..\..\..\..\midware\driver_mid.c(613): warning:  #177-D: variable "stcAdtTIMBCfg"  was declared but never referenced
+      stc_adt_CHxX_port_cfg_t stcAdtTIMBCfg;
+..\..\..\..\midware\driver_mid.c(673): warning:  #550-D: variable "enResult"  was set but never used
+      en_result_t      enResult = Ok;
+..\..\..\..\midware\driver_mid.c(674): warning:  #177-D: variable "u32Cnt"  was declared but never referenced
+      uint32_t         u32Cnt; 
+..\..\..\..\midware\driver_mid.c(753): warning:  #177-D: variable "powerLowFlag"  was declared but never referenced
+  		static uint8_t powerLowFlag=0;
+..\..\..\..\midware\driver_mid.c(754): warning:  #177-D: variable "tick_5s"  was declared but never referenced
+  		static uint8_t tick_5s=0;
+..\..\..\..\midware\driver_mid.c: 10 warnings, 0 errors
+linking...
+Program Size: Code=26904 RO-data=688 RW-data=296 ZI-data=3360  
 After Build - User command #1: D:\Useful\Keil for ARM V5.28\\ARM\ARMCC\bin\fromelf.exe --bin --output=Bin\app_V1.bin .\output\release\app_V1.0
-".\output\release\app_V1.0" - 0 Error(s), 0 Warning(s).
+".\output\release\app_V1.0" - 0 Error(s), 10 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -51,7 +75,7 @@ Package Vendor: HDSC
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.2.0
-Build Time Elapsed:  00:00:00
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

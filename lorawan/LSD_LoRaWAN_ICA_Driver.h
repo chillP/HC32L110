@@ -86,6 +86,7 @@ extern volatile uint32_t RxDoneFlag_uart1;
 									"AT+APPKEY=00112233445566778899AABBCCDDEEFF",  \
 									"AT+BAND=3,0",  \
 									"AT+OTAA=1",  \
+									"AT+CLASS=2",  \
 									"AT+DEBUG=0" \
 
 
