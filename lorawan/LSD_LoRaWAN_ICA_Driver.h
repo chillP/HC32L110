@@ -23,7 +23,9 @@ extern int uart0_RxByteCnt,uart0_TxByteCnt;
 extern int uart1_RxByteCnt,uart1_TxByteCnt;
 extern int lpuart_RxByteCnt,lpuart_TxByteCnt;
 
-extern volatile uint32_t RxDoneFlag;
+extern volatile uint32_t RxDoneFlag_lpuart;
+extern volatile uint32_t RxDoneFlag_uart0;
+extern volatile uint32_t RxDoneFlag_uart1;
 
 /** 根据实际MCU的打印函数替换宏定义 */
 #define DEBUG_PRINTF		printf
@@ -65,7 +67,7 @@ extern volatile uint32_t RxDoneFlag;
 #define UART_RECEIVE_BUFFER					lpuart_RxBuf
 
 /** 与模块相连接的串口接收到数据的标致 */
-#define UART_RECEIVE_FLAG					RxDoneFlag
+#define UART_RECEIVE_FLAG					RxDoneFlag_lpuart
 
 /** 与模块相连接的串口本次接收到数据长度 */
 #define UART_RECEIVE_LENGTH					lpuart_RxByteCnt

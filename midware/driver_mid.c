@@ -48,7 +48,9 @@ int uart1_RxByteCnt=0,uart1_TxByteCnt=0;
 int lpuart_RxByteCnt=0,lpuart_TxByteCnt=0;
 
 //接收完成标志
-volatile uint32_t RxDoneFlag = 0;
+volatile uint32_t RxDoneFlag_lpuart = 0;
+volatile uint32_t RxDoneFlag_uart0 = 0;
+volatile uint32_t RxDoneFlag_uart1 = 0;
 
 //功能开关
 uint8_t keyFunTest = 0;
@@ -135,9 +137,9 @@ uint32_t getTick(void)
 void Uart0_RxIntCallback(void)
 {
 	if(uart0_RxByteCnt>UART0_RXBUFSIZE) uart0_RxByteCnt=0;  //重覆盖
-	if(RxDoneFlag ==1)  //清缓存
+	if(RxDoneFlag_uart0 ==1)  //清缓存
 	{
-		RxDoneFlag = 0;
+		RxDoneFlag_uart0 = 0;
 		uart0_RxByteCnt=0;
 		memset(uart0_RxBuf,0,UART0_RXBUFSIZE);
 	}
@@ -152,9 +154,9 @@ void Uart0_RxIntCallback(void)
 void Uart1_RxIntCallback(void)
 {
 	if(uart1_RxByteCnt>UART1_RXBUFSIZE) uart1_RxByteCnt=0;  //重覆盖
-	if(RxDoneFlag ==1)  //清缓存
+	if(RxDoneFlag_uart1 ==1)  //清缓存
 	{
-		RxDoneFlag = 0;
+		RxDoneFlag_uart1 = 0;
 		uart1_RxByteCnt=0;
 		memset(uart1_RxBuf,0,UART1_RXBUFSIZE);
 	}
@@ -169,18 +171,19 @@ void Uart1_RxIntCallback(void)
 void Lpuart_RxIntCallback(void)
 {
 	if(lpuart_RxByteCnt>LPUART_RXBUFSIZE) lpuart_RxByteCnt=0;  //重覆盖
-	if(RxDoneFlag ==1)  //清缓存
+	if(RxDoneFlag_lpuart ==1)  //清缓存
 	{
-		RxDoneFlag = 0;
+		RxDoneFlag_lpuart = 0;
 		lpuart_RxByteCnt=0;
 		memset(lpuart_RxBuf,0,LPUART_RXBUFSIZE);
 	}	
 	
 	lpuart_RxBuf[lpuart_RxByteCnt++] = LPUart_ReceiveData();
 	
-	Lpt_Stop();
-	Lpt_ARRSet(1000);//波特率9600下，单字节数据传输时间0.83ms 分帧间隔需>0.83ms*1.5  
-	Lpt_Run();  //完成每字节接收后更新分帧定时器	
+	
+	Pca_Stop();
+	Pca_Cnt16Set(0);  //重新计数
+	Pca_Run();  //完成每字节接收后更新分帧定时器	
 }
 
 void Uart0_ErrIntCallback(void)
@@ -457,7 +460,7 @@ void LptInt(void)
 	if (TRUE == Lpt_GetIntFlag())
 	{
 		Lpt_ClearIntFlag();
-		RxDoneFlag = 1;  //串口接收完成标志
+		RxDoneFlag_uart1 = 1;  //串口接收完成标志
 		Lpt_Stop();
 	}
 }
@@ -527,13 +530,13 @@ void Pca_Timer_Init(void)
 	  stc_pca_config_t stcConfig;
     stc_pca_capmodconfig_t stcModConfig;
     en_result_t      enResult = Error;
-    uint16_t         u16InitCntData = 0x01f4;
-    uint16_t         u16CcapData = 0x01f4; //6250
+    uint16_t         u16InitCntData = 0;
+    uint16_t         u16CcapData = 0x02AF; 
     
 		Clk_SetPeripheralGate(ClkPeripheralPca, TRUE);  //开启PCA外设时钟
     stcConfig.enCIDL = IdleGoon; 
     stcConfig.enWDTE = PCAWDTDisable;
-    stcConfig.enCPS  = PCAPCLKDiv32; 
+    stcConfig.enCPS  = PCAPCLKDiv2; 
     
     stcConfig.pfnPcaCb = PcaInt;
     
@@ -560,7 +563,7 @@ void Pca_Timer_Init(void)
 
     Pca_CapData16Set(Module2, u16CcapData);//比较捕获寄存器设置
     Pca_Cnt16Set(u16InitCntData);
-		Pca_Run();
+		//Pca_Run();
 
 }
 
@@ -748,48 +751,21 @@ void PcaInt(void)
 {
 		static uint8_t powerLowFlag=0;
 		static uint8_t tick_5s=0;
-			
-	
+
 	  if (TRUE == Pca_GetCntIntFlag())
     {
         Pca_ClearCntIntFlag();
-        u32PcaTestFlag |= 0x20;
     }
-    if (TRUE == Pca_GetIntFlag(Module2))
-    {
-        Pca_ClearIntFlag(Module2);
-		Pca_CapData16Set(Module2, 0x01f4);//比较捕获寄存器设置
-		Pca_Cnt16Set(0x01f4);
-        tick_5s++;
+		if (TRUE == Pca_GetIntFlag(Module2))
+		{
+				Pca_ClearIntFlag(Module2);
+				RxDoneFlag_lpuart = 1;  //串口接收完成标志
+				Pca_Stop();
 				
-				//50ms处理一次LED状态
-				ledStatHandle();
-				
-			  //50ms检测一次掉电
-				if(vdetectEnable)
-				{
-					if(Gpio_GetIO(0, 3)==0 && powerLowFlag==1) 
-					{	
-						vdetectEnable = 0;	
-						powerDown_Task();
-					}
-					if(Gpio_GetIO(0, 3)==0) 
-					{
-						powerLowFlag = 1;
-					}
-				}
-				
-				//5s周期喂狗
-				if(tick_5s>=10)  //10s周期喂狗 
-				{
-					tick_5s = 0;
-					Wdt_Feed();
-				}
-    }  
+		}
 		if (TRUE == Pca_GetIntFlag(Module4))
     {
         Pca_ClearIntFlag(Module4);
-        u32PcaTestFlag |= 0x10;
     }
 }
 

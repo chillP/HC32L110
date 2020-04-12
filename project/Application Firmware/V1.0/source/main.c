@@ -60,7 +60,9 @@ extern int lpuart_RxByteCnt,lpuart_TxByteCnt;
 extern bool getSensorData_Tp;
 extern bool heartbeatReport_Tp;
 
-extern volatile uint32_t RxDoneFlag;
+extern volatile uint32_t RxDoneFlag_lpuart;
+extern volatile uint32_t RxDoneFlag_uart0;
+extern volatile uint32_t RxDoneFlag_uart1;
 
 extern uint8_t keyFunTest;
 extern uint8_t vdetectFunTest;
