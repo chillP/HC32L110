@@ -84,7 +84,7 @@ extern uint8_t vdetectEnable;
 /******************************************************************************
  * Local variable definitions ('static')                                      *
  ******************************************************************************/
-uint8_t logLevel=2;
+uint8_t logLevel=0;
 uint8_t EeBuf[HDEE_EeSize];
 /******************************************************************************
  * Local pre-processor symbols/macros ('#define')                             

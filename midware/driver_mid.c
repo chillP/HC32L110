@@ -74,6 +74,9 @@ ledStatType ledStat;
 //按键状态
 bool keyDetectedFlag = 0;
 
+//心跳周期
+extern uint8_t heartbeatPeriod;
+
 //呼吸配置
 //uint8_t ledBreath[55] = {0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,2,2,2,2,2,2,3,3,3,3,3,3,4,4,4,5,5,6,7,8,9,10,11,12,14,16,19,21,23,26,29,33,37,41,50,60,70};
 
@@ -462,6 +465,7 @@ void LptInt(void)
 	{
 		Lpt_ClearIntFlag();
 		RxDoneFlag_uart1 = 1;  //串口接收完成标志
+		RxDoneFlag_uart0 = 1;  //串口接收完成标志
 		Lpt_Stop();
 	}
 }
@@ -750,42 +754,37 @@ void Gpio_IRQHandler(uint8_t u8Param)
  ******************************************************************************/
 void PcaInt(void)
 {
-		static uint8_t powerLowFlag=0;
-		static uint8_t tick_5s=0;
-		uint16_t heartbeatData = 0;
-		char hexData[2] = "00";
-	
-	  if (TRUE == Pca_GetCntIntFlag())
-    {
-        Pca_ClearCntIntFlag();
-    }
-		if (TRUE == Pca_GetIntFlag(Module2))
-		{
-				Pca_ClearIntFlag(Module2);
-				RxDoneFlag_lpuart = 1;  //串口接收完成标志
-				Pca_Stop();
-				
-				//下行指令识别
-				if(lpuart_RxByteCnt==4)
-				{
-					if(lpuart_RxBuf[0]=='C'||lpuart_RxBuf[1]=='4')  //心跳周期设置
-					{
-							//获取浓度
-							hexData[0]=lpuart_RxBuf[2];
-							hexData[1]=lpuart_RxBuf[3];
-							heartbeatData = hexToDec(hexData);
-							
+	static uint8_t powerLowFlag=0;
+	static uint8_t tick_5s=0;
+	uint16_t heartbeatData = 0;
+	char hexData[2] = "00";
 
-							hexData[0]=lpuart_RxBuf[4];
-							hexData[1]=lpuart_RxBuf[5];
-							heartbeatData += hexToDec(hexData)*256;
-							printf("set heart-beat period to %d min\r\n",heartbeatData);  
-							
-					}
+	if (TRUE == Pca_GetCntIntFlag())
+	{
+		Pca_ClearCntIntFlag();
+	}
+	if (TRUE == Pca_GetIntFlag(Module2))
+	{
+			Pca_ClearIntFlag(Module2);
+			RxDoneFlag_lpuart = 1;  //串口接收完成标志
+			Pca_Stop();
+			
+			//下行指令识别
+			if(lpuart_RxByteCnt==4)
+			{
+				if(lpuart_RxBuf[0]=='C'||lpuart_RxBuf[1]=='4')  //心跳周期设置
+				{
+						//获取心跳周期
+						hexData[0]=lpuart_RxBuf[2];
+						hexData[1]=lpuart_RxBuf[3];
+						heartbeatData = hexToDec(hexData);
+						printf("set heart-beat period to %d hour\r\n",heartbeatData);  
+						heartbeatPeriod = heartbeatData;
 				}
-				
-		}
-		if (TRUE == Pca_GetIntFlag(Module4))
+			}
+			
+	}
+	if (TRUE == Pca_GetIntFlag(Module4))
     {
         Pca_ClearIntFlag(Module4);
     }

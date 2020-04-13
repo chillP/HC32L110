@@ -21,8 +21,8 @@ void getDeveui(void);
 
 typedef struct {
 	char dataContent[30];  //数据内容，如"CH4"
-	uint16_t dataAvg[8];  
-	uint16_t dataMax[8];  
+	uint16_t dataAvg[12];  
+	uint16_t dataMax[12];  
 }dataRecordType;
 
 

@@ -33,10 +33,11 @@ uint16_t dataMax=0;
 uint16_t dataAvg=0;
 uint32_t dataSum=0;
 dataRecordType ch4DataBuf;
+uint8_t heartbeatPeriod=12;  //缺省心跳周期8h
 
 uint8_t getDataBuf[13];
 uint8_t getCh4Cmd[23]={"*0401000000000000FA\r\n"};
-uint8_t heartBeatBuf[34]={"0100000000000000000000000000000000"};
+uint8_t heartBeatBuf[50];
 uint8_t deveuiBuf[50] = {0};
 
 bool alarmReportFlag_Lel=0;
@@ -91,14 +92,14 @@ void getSensorData_Task(void)
 	
 	Uart0_send_string(getCh4Cmd);
 	
-	while(UART_RECEIVE_FLAG == 0)
+	while(RxDoneFlag_uart0 == 0)
 	{
 		if(true == time_out_break_ms(2000))
 		{
 			break;
 		}
 	}
-	UART_RECEIVE_FLAG = 0;
+	RxDoneFlag_uart0 = 0;
 	printf("-get sensor data(CH4): %s",uart0_RxBuf);
 
 	for(i=0;i<13;i++)
@@ -192,7 +193,7 @@ void getSensorData_Task(void)
 	}
 	
 	//数据上报 - 120s周期
-	if(saveDataCnt>=8)  
+	if(saveDataCnt>=heartbeatPeriod)  
 	{
 		saveDataCnt = 0;
 		heartbeatReport_Tp = 1;
@@ -245,18 +246,29 @@ void heartBeatReport_Task(void)
 	uint8_t ch4DataAvg[2];
 	uint8_t ch4DataMax[2];	
 	
-	//历史数据处理
-	for(i=0;i<8;i++)
+	//控制码字段
+	heartBeatBuf[0] = 1;
+	
+	//心跳周期字段
+	heartBeatBuf[1] = heartbeatPeriod;
+	
+	//浓度数据字段
+	for(i=0;i<heartbeatPeriod;i++)
 	{
-		sprintf((char*)ch4DataAvg,"%02x",(uint32_t)ch4DataBuf.dataAvg[i]);
-		sprintf((char*)ch4DataMax,"%02x",(uint32_t)ch4DataBuf.dataMax[i]);
+		heartBeatBuf[4*i+2] = ch4DataBuf.dataMax[i]/256;  //峰值高字节
+		heartBeatBuf[4*i+3] = ch4DataBuf.dataMax[i] & 0x00ff;  //峰值低字节
+		heartBeatBuf[4*i+4] = ch4DataBuf.dataAvg[i]/256;  //均值高字节
+		heartBeatBuf[4*i+5] = ch4DataBuf.dataAvg[i] & 0x00ff;  //均值低字节	
 		
-		heartBeatBuf[4*i+2] = ch4DataAvg[0];
-		heartBeatBuf[4*i+3] = ch4DataAvg[1];
-		heartBeatBuf[4*i+4] = ch4DataMax[0];
-		heartBeatBuf[4*i+5] = ch4DataMax[1];
 	}
-	printf("heartBeatBuf: %s\r\n",heartBeatBuf);		
+	
+	//数据打印
+	printf("-heartbeatBuf: ");		
+	for(i=0;i<4*heartbeatPeriod+2;i++)
+	{
+		printf("%02x ",heartBeatBuf[i]);		
+	}
+	printf("\r\n");	
 	
 	UART_RECEIVE_FLAG = 0;
 	UART_RECEIVE_LENGTH = 0;
@@ -267,7 +279,7 @@ void heartBeatReport_Task(void)
 	
 	printf("\r\n===Data Report===\r\n");
 	printf("-report heartbeat: \r\n");
-	send_result = node_block_send(CONFIRM_TYPE | 0x03, heartBeatBuf, 34, &head);
+	send_result = node_block_send(CONFIRM_TYPE | 0x03, heartBeatBuf, 4*heartbeatPeriod+2, &head);
 	
 	//node_gpio_set(wake, sleep);  //休眠
 	if(logLevel == 2)
@@ -310,12 +322,46 @@ void errorReport_Task(void)
 	uint16_t seed = 0;
 	uint16_t random_t = 0;
 	char hexData[2];
-	uint8_t lelReportBuf[12]={"310000000000"};
-	uint8_t statReportBuf[4]={"3300"};
+	uint8_t lelReportBuf[4];
+	uint8_t statReportBuf[3];
+	uint8_t errorByte;
+	uint16_t ch4Data = 0;
 
+	//***报警帧***//
+	
+	//控制码
+	lelReportBuf[0] = 0x31;
+	
+	//报警标志
+	hexData[0]=getDataBuf[1];
+	hexData[1]=getDataBuf[2];
+	errorByte = hexToDec(hexData);	
+	lelReportBuf[1] = errorByte;	
+
+	//气体浓度
+	hexData[0]=getDataBuf[3];
+	hexData[1]=getDataBuf[4];
+	ch4Data = hexToDec(hexData);
+	lelReportBuf[3] = ch4Data;
+
+	hexData[0]=getDataBuf[5];
+	hexData[1]=getDataBuf[6];
+	ch4Data = hexToDec(hexData)*256;
+	lelReportBuf[2] = ch4Data;
+
+	//***状态帧***//
+	
+	//控制码
+	statReportBuf[0] = 0x32;
+
+	//状态标志
+	statReportBuf[1] = 0;
+	statReportBuf[2] = 0;
+	if(statReportFlag_Mute) statReportBuf[1] = 0xff;
+	if(statReportFlag_Stest) statReportBuf[2] = 0xff;	
+	
 	for(i=0;i<3;i++)
 	{
-		//上报掉电恢复状态
 		UART_RECEIVE_FLAG = 0;
 		UART_RECEIVE_LENGTH = 0;
 		memset(UART_RECEIVE_BUFFER, 0, sizeof(UART_RECEIVE_BUFFER));
@@ -330,25 +376,31 @@ void errorReport_Task(void)
 		{
 			if(alarmReportFlag_Lel) printf("-gas lel warning!\r\n");
 			if(alarmReportFlag_Sensor) printf("-sensor fault!\r\n");
-			//报警标志
-			lelReportBuf[3] = uart0_RxBuf[2];	
 			
-			//浓度数据
+			//数据打印
+			printf("-lelReportBuf: ");		
 			for(i=0;i<4;i++)
 			{
-				lelReportBuf[i+8] = uart0_RxBuf[i+4];
+				printf("%02x ",lelReportBuf[i]);		
 			}
+			printf("\r\n");	
 			
-			//上报
-			send_result = node_block_send(CONFIRM_TYPE | 0x07, lelReportBuf, 12, &head);
+			send_result = node_block_send(CONFIRM_TYPE | 0x07, lelReportBuf, 4, &head);
 		}
 		if(statReportFlag_Mute|statReportFlag_Stest)
 		{
 			if(statReportFlag_Mute) printf("-muting now!\r\n");
 			if(statReportFlag_Stest) printf("-self testing!\r\n");
-			//状态标志
-			lelReportBuf[3] = uart0_RxBuf[3];
-			send_result = node_block_send(CONFIRM_TYPE | 0x07, lelReportBuf, 4, &head);
+			
+			//数据打印
+			printf("-statReportBuf: ");		
+			for(i=0;i<3;i++)
+			{
+				printf("%02x ",statReportBuf[i]);		
+			}
+			printf("\r\n");	
+			
+			send_result = node_block_send(CONFIRM_TYPE | 0x07, statReportBuf, 3, &head);
 		}			
 		
 		if(logLevel == 2)
@@ -396,19 +448,25 @@ void errorReport_Task(void)
 			}		
 		}			
 	}	
+	errorReportFlag = 0;
+	alarmReportFlag_Lel = 0;
+	alarmReportFlag_Sensor = 0;
+	statReportFlag_Mute = 0;
+	statReportFlag_Stest = 0;
 }
 
 void powerDown_Task(void)
 {
-	uint8_t i=0;
+	uint8_t i=0,j=0;
 	down_list_t *head = NULL;
 	execution_status_t send_result;
 	uint16_t seed = 0;
 	uint16_t random_t = 0;
 	char hexData[2];	
+	uint8_t pdReportBuf[2];
 	
 	ledStat = QUICKFLASH;
-	printf("power-down detected!!!\r\n"); 
+	printf("-power-down detected!!!\r\n"); 
 	
 	//FLASH存储掉电标记
 	EeBuf[0]=0x11;
@@ -420,7 +478,10 @@ void powerDown_Task(void)
 	
 	node_join_successfully=1;
 	
-
+	//帧组合
+	pdReportBuf[0] = 0x33;
+	pdReportBuf[1] = 0xff;
+	
 	//随机数种子生成              
 	hexData[0]=deveuiBuf[22];
 	hexData[1]=deveuiBuf[23];
@@ -447,7 +508,16 @@ void powerDown_Task(void)
 		node_gpio_set(wake, wakeup);  //唤醒
 		
 		printf("\r\n===PowerDown Report===\r\n");
-		send_result = node_block_send(UNCONFIRM_TYPE | 0x01, (uint8_t*)"34ff", 4, &head);
+		
+		//数据打印
+		printf("-pdReportBuf: ");		
+		for(j=0;j<2;j++)
+		{
+			printf("%02x ",pdReportBuf[j]);		
+		}
+		printf("\r\n");			
+		
+		send_result = node_block_send(UNCONFIRM_TYPE | 0x01, pdReportBuf, 2, &head);
 		
 		node_gpio_set(wake, sleep);  //休眠
 		if(logLevel == 2)
@@ -500,6 +570,11 @@ void powerOn_Task(void)
 	uint16_t seed = 0;
 	uint16_t random_t = 0;
 	char hexData[2];	
+	uint8_t poReportBuf[2];	
+
+	//帧组合
+	poReportBuf[0] = 0x33;
+	poReportBuf[1] = 0x00;
 	
 	//随机数种子生成              
 	hexData[0]=deveuiBuf[22];
@@ -533,7 +608,16 @@ void powerOn_Task(void)
 		node_gpio_set(wake, wakeup);  //唤醒
 		
 		printf("\r\n===PowerRecovery Report===\r\n");
-		send_result = node_block_send(CONFIRM_TYPE | 0x07, (uint8_t*)"3400", 4, &head);
+		
+		//数据打印
+		printf("-poReportBuf: ");		
+		for(i=0;i<2;i++)
+		{
+			printf("%02x ",poReportBuf[i]);		
+		}
+		printf("\r\n");	
+		
+		send_result = node_block_send(CONFIRM_TYPE | 0x07, poReportBuf, 2, &head);
 		
 		if(logLevel == 2)
 		{
