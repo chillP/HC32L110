@@ -682,6 +682,14 @@ void ledStatHandle(void)
 	static uint8_t flashCnt=0;
 	static ledStatType lastLedState;
 	uint8_t y=0;
+	uint8_t breath_array[160]={0,	1,	3,	4,	5,	6,	8,	9,	10,	11,	12,	14,	15,	16,	17,	18,	19,	20,	
+								21,	22,	23,	24,	25,	26,	27,	28,	29,	30,	31,	32,	33,	34,	34,	35,	36,	37,
+								37,	38,	39,	40,	40,	41,	41,	42,	43,	43,	44,	44,	45,	45,	46,	46,	46,	47,
+								47,	48,	48,	48,	48,	49,	49,	49,	49,	49,	50,	50,	50,	50,	50,	50,	50,	50,
+								50,	50,	50,	50,	50,	49,	49,	49,	49,	49,	48,	48,	48,	47,	47,	47,	46,	46,
+								45,	45,	44,	44,	43,	43,	42,	42,	41,	41,	40,	39,	39,	38,	37,	36,	36,	35,
+								34,	33,	32,	31,	31,	30,	29,	28,	27,	26,	25,	24,	23,	22,	21,	20,	19,	18,
+								16,	15,	14,	13,	12,	11,	9,	8,	7,	6,	5,	3,	2,	1};
 	
 	switch(ledStat)
 	{
@@ -696,7 +704,14 @@ void ledStatHandle(void)
 		case BREATH:  //10sºôÎü 
 			breathCnt++;
 			if(breathCnt>=200) breathCnt = 0;
-			y = 100*sin(0.015*breathCnt) - 50;
+			//y = 100*sin(0.015*breathCnt) - 50;
+			
+			if(breathCnt>=34 || breathCnt<=173)
+			{
+				y=breath_array[breathCnt-34];
+			}
+			else y=0;
+			
 			Pca_CapDataHSet(Module4, y);
 			lastLedState = ledStat;		
 			break;

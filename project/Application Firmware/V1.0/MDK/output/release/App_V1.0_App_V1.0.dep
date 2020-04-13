@@ -48,7 +48,7 @@ I (..\..\..\..\midware\driver_mid.h)(0x5E8ECD41)
 I (..\..\..\..\driver\inc\adt.h)(0x5B5EBCD6)
 I (..\..\..\..\lorawan\LSD_LoRaWAN_ICA_Driver.h)(0x5E93456F)
 I (..\..\..\..\midware\HDEE5.h)(0x5E8C0907)
-F (..\..\..\..\application\app.c)(0x5E942EAB)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I..\..\..\..\mcu\common -I..\source -I..\..\..\..\driver\inc -I..\..\..\..\midware -I..\..\..\..\lorawan -I..\..\..\..\application-I "G:\工作\燃气检测软件\简单代码框架1\LSD4WN1031-01D0_Firmware_Rev1.0\project\Application Firmware\V1.0\MDK\RTE"-I D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I D:\Software\Keil_v5\ARM\PACK\HDSC\HC32L110\1.0.3\Device\Include-D__UVISION_VERSION="517" -D_RTE_-o .\output\release\app.o --omf_browse .\output\release\app.crf --depend .\output\release\app.d)
+F (..\..\..\..\application\app.c)(0x5E948DC3)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I..\..\..\..\mcu\common -I..\source -I..\..\..\..\driver\inc -I..\..\..\..\midware -I..\..\..\..\lorawan -I..\..\..\..\application-I "G:\工作\燃气检测软件\简单代码框架1\LSD4WN1031-01D0_Firmware_Rev1.0\project\Application Firmware\V1.0\MDK\RTE"-I D:\Software\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I D:\Software\Keil_v5\ARM\PACK\HDSC\HC32L110\1.0.3\Device\Include-D__UVISION_VERSION="517" -D_RTE_-o .\output\release\app.o --omf_browse .\output\release\app.crf --depend .\output\release\app.d)
 I (D:\Software\Keil_v5\ARM\ARMCC\include\math.h)(0x55DB2B7E)
 I (..\..\..\..\application\app.h)(0x5E942251)
 I (D:\Software\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x55DB2B76)
