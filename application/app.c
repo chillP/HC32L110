@@ -53,6 +53,7 @@ int8_t rssiGw = 0;
 int8_t rssiDtu = 0;
 int8_t snrGw = 0;
 int8_t snrDtu = 0;
+uint8_t testModePower = 0;
 
 bool alarmReportFlag_Lel=0;
 bool alarmReportFlag_Sensor=0;
@@ -882,7 +883,7 @@ uint8_t frameCheck(uint8_t* return_data)
 	}	
 }
 
-bool handShakeAttempt(void)
+uint8_t handShakeAttempt(void)
 {
 	uint8_t return_data[50] = {0};
 	uint8_t tryCnt = 0;
@@ -977,11 +978,27 @@ bool handShakeAttempt(void)
 				
 				printf("阈值：rssi> %d ,snr> %d\r\n",rssiThreshould,snrThreshould);	
 				printf("#HAND SHAKE SUCCESS\r\n");
-				return true;				
+				
+				testModePower = return_data[12];  //发射功率设定
+				
+				if(return_data[11] == 1)  //模式识别
+				{
+					return 1;  //测试模式
+				}
+				else if(return_data[11] == 2)
+				{
+					return 2;  //透传模式
+				}
+				else
+				{
+					printf("-unknown mode code\r\n");
+					return 0;  //数据错误
+				}
+				
 			}	
 			else
 			{
-				printf("-pkt is not HandshakeAcp");
+				printf("-pkt is not HandshakeAcp\r\n");
 			}
 		}
 		else
@@ -990,7 +1007,7 @@ bool handShakeAttempt(void)
 		}		
 	}
 	printf("#HAND SHAKE FAIL\r\n");
-	return false;  //3次握手尝试失败
+	return 0;  //3次握手尝试失败
 }
 
 bool sensorTest(void)
@@ -1255,19 +1272,6 @@ bool radioTest(uint8_t sensorTestResult)
 		printf("#RADIO TEST FAIL\r\n");
 		return false;
 	}
-
-//	rssiDtu = return_data[dataLen-2];  //信号质量记录
-//	snrDtu = return_data[dataLen-1]/4;
-//	rssiGw = return_data[11];
-//	snrGw = return_data[12];
-
-//						
-//	printf("rssiDtu: %d\r\n",(int8_t)rssiDtu);
-//	printf("snrDtu: %d\r\n",(int8_t)snrDtu);
-//	printf("rssiDtu: %d\r\n",(int8_t)rssiGw);
-//	printf("snrDtu: %d\r\n",(int8_t)snrGw);	
-	
-	
 }
 
 void factoryTest(void)
@@ -1282,7 +1286,8 @@ void factoryTest(void)
 	uint8_t P2P_DATA[10]={0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08};
 	bool rxTimeoutFlag = false;
 	uint8_t sensorTestResult = 0x00;
-
+	uint8_t handShakeResult = 0;
+	
 	//***LED状态***//
 	ledStat = ON;
 	
@@ -1298,25 +1303,38 @@ void factoryTest(void)
 	}
 	
 	//***握手尝试***//
-	if(handShakeAttempt() == 0)  //握手失败
-	{
-		ledStat = OFF;
-		return;
-	}
-
-	//***报警器测试***//
-	if(sensorTest()) sensorTestResult = 0xff;
-	else sensorTestResult = 0x00;
+	handShakeResult = handShakeAttempt();
 	
-	//***射频通信测试***//
-	if(radioTest(sensorTestResult) == true && sensorTestResult == 0xff)  //测试通过
+	switch(handShakeResult)
 	{
-		ledStat = QUICKFLASH;
+		case 0:  //握手失败
+			
+			ledStat = OFF;
+			break;
+		
+		case 1:  //测试模式
+			
+			//报警器测试
+			if(sensorTest()) sensorTestResult = 0xff;
+			else sensorTestResult = 0x00;
+			
+			//射频通信测试
+			if(radioTest(sensorTestResult) == true && sensorTestResult == 0xff)  //测试通过
+			{
+				ledStat = QUICKFLASH;
+			}
+			else  //测试失败
+			{
+				ledStat = OFF;
+			}
+			break;
+		
+		case 2:  //透传模式
+			
+			transperantMode();
+			break;
 	}
-	else  //测试失败
-	{
-		ledStat = OFF;
-	}
+	
 //	system_delay_ms(50000);  //测试结束后保持200s
 //	system_delay_ms(50000);
 //	system_delay_ms(50000);
