@@ -25,6 +25,14 @@
 #include "HDEE5.h"
 #include "pca.h"
 
+#define HandshakeReqLen 14
+#define HandshakeAcpLen 16
+#define Uplink1Len 15
+#define Downlink1Len 14
+#define Uplink2Len 15
+#define Downlink2Len 14
+
+
 bool onlineFlag = 0;
 bool errorReportFlag=0;
 uint16_t getDataCnt=0;
@@ -33,12 +41,18 @@ uint16_t dataMax=0;
 uint16_t dataAvg=0;
 uint32_t dataSum=0;
 dataRecordType ch4DataBuf;
-uint8_t heartbeatPeriod=12;  //缺省心跳周期8h
+uint8_t heartbeatPeriod=8;  //缺省心跳周期8h
 
 uint8_t getDataBuf[13];
 uint8_t getCh4Cmd[23]={"*0401000000000000FA\r\n"};
 uint8_t heartBeatBuf[50];
-uint8_t deveuiBuf[50] = {0};
+uint8_t deveuiBuf[30] = {0};
+int8_t rssiThreshould = 0;
+int8_t snrThreshould = 0;
+int8_t rssiGw = 0;
+int8_t rssiDtu = 0;
+int8_t snrGw = 0;
+int8_t snrDtu = 0;
 
 bool alarmReportFlag_Lel=0;
 bool alarmReportFlag_Sensor=0;
@@ -54,6 +68,8 @@ extern ledStatType ledStat;
 extern bool keyDetectedFlag;
 extern bool powerOnFlag;
 
+uint8_t handShakePkt[HandshakeReqLen]={0xE4,0xFB,0x01,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0X00,0X00};  //2字节帧头+1字节控制码+8字节DEVEUI
+
 void lorawanResetAndConfig(void)
 {
 	printf("\r\n===Module Config===\r\n");
@@ -64,13 +80,13 @@ void lorawanResetAndConfig(void)
 	printf("-set basic para: \r\n");
 	if(save_cmd_configure())
 	{
-		printf("OK\r\n");
+		printf("OK!!!\r\n");
 	}
 	else
 	{
-		printf("ERROR\r\n");		
+		printf("ERROR!!!\r\n");		
 	}
-	transfer_configure_command("AT+DEBUG=1");
+	//transfer_configure_command("AT+DEBUG=1");
 }
 
 void getSensorData_Task(void)
@@ -92,6 +108,7 @@ void getSensorData_Task(void)
 	
 	Uart0_send_string(getCh4Cmd);
 	
+	timeout_start_flag = true;
 	while(RxDoneFlag_uart0 == 0)
 	{
 		if(true == time_out_break_ms(2000))
@@ -226,11 +243,11 @@ void networkConnect_Task(void)
 	else
 	{
 		printf("ERROR\r\n");
-		printf("-rejoin after 10s \r\n");
+		printf("-rejoin after 60s \r\n");
 		timeout_start_flag = true;
 		while(1)
 		{
-			if(true == time_out_break_ms(10000))
+			if(true == time_out_break_ms(60000))
 			{
 				break;
 			}
@@ -706,7 +723,7 @@ void ledStatHandle(void)
 			if(breathCnt>=200) breathCnt = 0;
 			//y = 100*sin(0.015*breathCnt) - 50;
 			
-			if(breathCnt>=34 || breathCnt<=173)
+			if(breathCnt>=34 && breathCnt<=173)
 			{
 				y=breath_array[breathCnt-34];
 			}
@@ -789,3 +806,520 @@ void getDeveui(void)
 	}
 	keyDetectedFlag = 0;
 }
+
+void p2pSetup(void)
+{
+	LoRaNode_P2P_Info LoRa_P2P_Node;
+	uint8_t confResult[10]={0};
+	uint16_t i = 0;
+	uint8_t errorFlag=0;
+	
+	node_hard_reset();
+	
+	//参数初始化
+	LoRa_P2P_Node.P2P_FRQ = 4883;
+	LoRa_P2P_Node.P2P_PWR = 10;
+	LoRa_P2P_Node.P2P_SF = 7;
+	
+	//配置P2P
+	printf("- set p2p para: "); 
+	node_gpio_set(mode, command);
+	transfer_configure_command("AT+factory");
+	confResult[0] = transfer_configure_command("AT+MINIRF=1");
+	confResult[1] = LoRaNode_SetP2P(LoRa_P2P_Node.P2P_FRQ*100000,1,LoRa_P2P_Node.P2P_PWR,LoRa_P2P_Node.P2P_SF,0,1,0,0,0);	
+	confResult[2] = transfer_configure_command("AT+STATUS=3,3");
+	confResult[3] = transfer_configure_command("AT+SAVE");
+	
+	for(i=0;i<4;i++)	
+	{
+		if(logLevel == 2)  printf("%d\r\n",confResult[i]);
+		if(confResult[i]==0) errorFlag=1;
+	}		
+	
+	if(!errorFlag) printf("OK\r\n");
+	else printf("ERROR\r\n");	
+}
+
+uint8_t frameCheck(uint8_t* return_data)
+{
+	uint8_t i=0;
+	bool devCheckOk=false;
+	
+	if(return_data[0]==0xC8 && return_data[1]==0xDF)  //帧头
+	{
+		for(i=0;i<8;i++)  //DEVEUI校验
+		{
+			if(return_data[i+3] != handShakePkt[i+3])
+			{
+				printf("Deveui check error\r\n");
+				return 0;
+			}
+		}
+		
+		switch (return_data[2])	  //返回控制码
+		{
+			case 0x01:
+				printf("Frame check ok\r\n");
+				return 0x01;
+				break;
+			case 0xF2:
+				printf("Frame check ok\r\n");
+				return 0xF2;
+				break;
+			case 0xF4:
+				printf("Frame check ok\r\n");
+				return 0xF4;
+				break;
+			default:
+				printf("Ctrl bit check error\r\n");
+				return 0;
+		}	
+	}
+	else
+	{
+		printf("Frame head check error\r\n");
+		return 0;
+	}	
+}
+
+bool handShakeAttempt(void)
+{
+	uint8_t return_data[50] = {0};
+	uint8_t tryCnt = 0;
+	uint16_t dataLen = 0;
+	bool frameCheckOk = true;
+	
+	uint16_t i = 0;
+	char hexData[2];
+	uint16_t seed = 0;
+	uint16_t random_t = 0;
+	
+	printf("\r\n===Hand Shake Attempt===\r\n");
+	
+	//组帧
+	for(i=0;i<8;i++)  //DEVEUI写入
+	{
+		hexData[0]=deveuiBuf[i*3+1];
+		hexData[1]=deveuiBuf[i*3+2];
+		
+		handShakePkt[i+3] = (uint8_t)hexToDec(hexData);
+	}
+
+	if(logLevel == 2)  //帧打印
+	{
+		printf("handshakepkt: ");
+		for(i=0;i<14;i++)
+		{
+			printf("%02x",handShakePkt[i]);
+		}
+		printf("\r\n");
+	}
+
+	for(tryCnt=0;tryCnt<3;tryCnt++)  //最多3次握手尝试
+	{
+		printf("\r\n-Handshake Try %d/3 \r\n",tryCnt+1);
+		//随机延时
+		hexData[0]=deveuiBuf[22];
+		hexData[1]=deveuiBuf[23];
+		
+		seed = hexToDec(hexData);
+		srand( seed );                  
+		random_t = rand() % 20;  //生成0-20的随机数
+		printf("-delay %d ms\r\n",random_t);
+		system_delay_ms(random_t);  //20ms内随机延时
+		
+		//数据发送
+		node_gpio_set(mode, wakeup);
+		node_gpio_set(mode, transparent);
+		
+		UART_RECEIVE_FLAG = 0;
+		UART_RECEIVE_LENGTH = 0;
+		memset(UART_RECEIVE_BUFFER, 0, sizeof(UART_RECEIVE_BUFFER));
+		
+		UART_WRITE_DATA((uint8_t*)handShakePkt, 14);
+		
+		//数据接收
+		timeout_start_flag = true;
+		while(UART_RECEIVE_FLAG == 0)
+		{
+			if(true == time_out_break_ms(500))
+			{
+				break;
+			}	
+		}
+		
+		if(UART_RECEIVE_FLAG)
+		{
+			//帧缓存
+			dataLen = UART_RECEIVE_LENGTH;
+			for(i=0;i<dataLen;i++)
+			{
+				return_data[i] = UART_RECEIVE_BUFFER[i];
+			}
+			
+			//调试日志
+			if(logLevel == 2)
+			{
+				printf("get data：");
+				for(i=0;i<dataLen;i++)
+				{
+					printf("%02x ",return_data[i]);
+				}
+				printf("\r\n");	
+			}
+			
+			//帧校验
+			if(frameCheck(return_data)==0x01)  //HandshakeAcp
+			{
+				//帧内容处理
+				rssiThreshould = return_data[13];  //信号质量阈值设定
+				snrThreshould = return_data[14];
+				
+				printf("阈值：rssi> %d ,snr> %d\r\n",rssiThreshould,snrThreshould);	
+				printf("#HAND SHAKE SUCCESS\r\n");
+				return true;				
+			}	
+			else
+			{
+				printf("-pkt is not HandshakeAcp");
+			}
+		}
+		else
+		{
+			printf("- no response\r\n");
+		}		
+	}
+	printf("#HAND SHAKE FAIL\r\n");
+	return false;  //3次握手尝试失败
+}
+
+bool sensorTest(void)
+{
+	uint8_t checkSum = 0x00;
+	uint16_t ch4Data = 0;
+	char hexData[2] = "00";
+	uint8_t i,j=0;
+	uint8_t getTemCmd[23]={"*0402000000000000F9\r\n"};
+	uint8_t getCh4Threshould[23]={"*0408000000000000F3\r\n"};
+	
+	
+	//报警器串口通信
+	printf("\r\n===Sensor Test===\r\n");
+	for(j=0;j<3;j++)  //3条不同指令测试
+	{
+		switch(j)  //发送指令
+		{
+			case 0: 
+				printf("-enquire sensor data(CH4) \r\n");
+				RxDoneFlag_uart0 = 0;
+				uart0_RxByteCnt = 0;
+				memset(uart0_RxBuf, 0, sizeof(uart0_RxBuf));
+				Uart0_send_string(getCh4Cmd);
+				break;
+			case 1: 
+				printf("-enquire temperature \r\n");
+				RxDoneFlag_uart0 = 0;
+				uart0_RxByteCnt = 0;
+				memset(uart0_RxBuf, 0, sizeof(uart0_RxBuf));
+				Uart0_send_string(getTemCmd);
+				break;
+			case 2: 
+				printf("-enquire CH4 threshould \r\n");
+				RxDoneFlag_uart0 = 0;
+				uart0_RxByteCnt = 0;
+				memset(uart0_RxBuf, 0, sizeof(uart0_RxBuf));
+				Uart0_send_string(getCh4Threshould);
+				break;			
+		}
+		timeout_start_flag = true;
+		while(RxDoneFlag_uart0 == 0)  //等待接收
+		{
+			if(true == time_out_break_ms(100))
+			{
+				break;
+			}
+		}
+		if(RxDoneFlag_uart0 == 1)  //数据校验
+		{
+			RxDoneFlag_uart0 = 0;
+			if(uart0_RxByteCnt == 13)
+			{
+				for(i=0;i<13;i++)  //缓存数据
+				{
+					getDataBuf[i] = uart0_RxBuf[i];
+				}
+				if(getDataBuf[0]=='*' && getDataBuf[11]=='\r' &&  getDataBuf[12]=='\n')  //帧头帧尾校验
+				{
+					printf("-frame check ok\r\n");
+				}
+				else
+				{
+					printf("-frame check error\r\n");
+					return 0;
+				}
+			}
+			else
+			{
+				printf("-len check error\r\n");
+				return 0;
+			}
+		}
+		else
+		{
+			printf("-no response\r\n");
+			return 0;
+		}
+		
+	}
+	printf("#SENSOR TEST PASS\r\n");
+	return 1;
+}
+
+bool radioTest(uint8_t sensorTestResult)
+{
+	uint8_t upLink1Pkt[Uplink1Len]={0xE4,0xFB,0xF1,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0X00,0X00,0X00};  //2字节帧头+1字节控制码+8字节DEVEUI
+	uint8_t upLink2Pkt[Uplink2Len]={0xE4,0xFB,0xF3,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0X00,0X00,0X00};  //2字节帧头+1字节控制码+8字节DEVEUI
+	uint8_t i = 0;
+	char hexData[3]={"00"};
+	uint16_t seed = 0;
+	uint16_t random_t = 0;
+	uint16_t dataLen = 0;
+	uint8_t return_data[50] = {0};
+	uint8_t tryCnt = 0;
+	bool radioTestPass = false;
+	uint8_t devbuf=0;
+	
+	printf("\r\n===Radio Test===\r\n");
+	//组帧
+	for(i=0;i<8;i++)  //DEVEUI写入
+	{
+		hexData[0]=deveuiBuf[i*3+1];
+		hexData[1]=deveuiBuf[i*3+2];
+		
+		devbuf = (uint8_t)hexToDec(hexData);
+		upLink1Pkt[i+3] = devbuf;
+		upLink2Pkt[i+3] = devbuf;
+	}
+
+	upLink1Pkt[13] = sensorTestResult;  //报警器测试结果写入
+	upLink2Pkt[13] = sensorTestResult;
+	
+	for(tryCnt=0;tryCnt<3;tryCnt++)  //最多3组射频交互
+	{
+		printf("\r\n-Radio Test %d/3 \r\n",tryCnt+1);
+		//数据发送-UpLink1
+		printf("uplink1pkt: ");  //帧打印
+		for(i=0;i<Uplink1Len;i++)
+		{
+			printf("%02x",upLink1Pkt[i]);
+		}
+		printf("\r\n");
+		
+		node_gpio_set(mode, wakeup);
+		node_gpio_set(mode, transparent);
+		
+		UART_RECEIVE_FLAG = 0;
+		UART_RECEIVE_LENGTH = 0;
+		memset(UART_RECEIVE_BUFFER, 0, sizeof(UART_RECEIVE_BUFFER));
+		
+		UART_WRITE_DATA((uint8_t*)upLink1Pkt, Uplink1Len);
+		
+		//数据接收
+		timeout_start_flag = true;
+		while(UART_RECEIVE_FLAG == 0)
+		{
+			if(true == time_out_break_ms(200))
+			{
+				break;
+			}	
+		}
+		
+		if(UART_RECEIVE_FLAG)
+		{
+			//帧缓存
+			dataLen = UART_RECEIVE_LENGTH;
+			for(i=0;i<dataLen;i++)
+			{
+				return_data[i] = UART_RECEIVE_BUFFER[i];
+			}
+			
+			//调试日志
+			if(logLevel == 2)
+			{
+				printf("get data：");
+				for(i=0;i<dataLen;i++)
+				{
+					printf("%02x",return_data[i]);
+				}
+				printf("\r\n");	
+			}
+			
+			//帧校验
+			if(frameCheck(return_data)==0xF2)  //Downlink1
+			{
+				//帧内容处理
+				rssiDtu = return_data[dataLen-2];  //信号质量记录
+				snrDtu = return_data[dataLen-1]/4;
+				rssiGw = return_data[11];
+				snrGw = return_data[12];
+									
+				printf("rssiDtu: %d\r\n",(int8_t)rssiDtu);
+				printf("snrDtu: %d\r\n",(int8_t)snrDtu);
+				printf("rssiGw: %d\r\n",(int8_t)rssiGw);
+				printf("snrGw: %d\r\n",(int8_t)snrGw);	
+			}	
+			else
+			{
+				printf("-pkt is not Downlink1\r\n");
+			}
+		}
+		else
+		{
+			printf("-no response\r\n");
+		}
+
+		//数据发送-UpLink2
+		upLink2Pkt[11] = rssiDtu;  //信号质量写入
+		upLink2Pkt[12] = snrDtu;
+		
+		printf("\r\nsend uplink2pkt: ");  //帧打印
+		for(i=0;i<Uplink2Len;i++)
+		{
+			printf("%02x",upLink2Pkt[i]);
+		}
+		printf("\r\n");
+		
+		node_gpio_set(mode, wakeup);
+		node_gpio_set(mode, transparent);
+		
+		UART_RECEIVE_FLAG = 0;
+		UART_RECEIVE_LENGTH = 0;
+		memset(UART_RECEIVE_BUFFER, 0, sizeof(UART_RECEIVE_BUFFER));
+		
+		UART_WRITE_DATA((uint8_t*)upLink2Pkt, Uplink2Len);
+		
+		//数据接收
+		timeout_start_flag = true;
+		while(UART_RECEIVE_FLAG == 0)
+		{
+			if(true == time_out_break_ms(200))
+			{
+				break;
+			}	
+		}
+		
+		if(UART_RECEIVE_FLAG)
+		{
+			//帧缓存
+			dataLen = UART_RECEIVE_LENGTH;
+			for(i=0;i<dataLen;i++)
+			{
+				return_data[i] = UART_RECEIVE_BUFFER[i];
+			}
+			
+			//调试日志
+			if(logLevel == 2)
+			{
+				printf("get data：");
+				for(i=0;i<dataLen;i++)
+				{
+					printf("%02x ",return_data[i]);
+				}
+				printf("\r\n");	
+			}
+			
+			//帧校验
+			if(frameCheck(return_data)==0xF4)  //Downlink2
+			{
+				radioTestPass = 1;
+				break;
+			}	
+			else
+			{
+				printf("-pkt is not Downlink2\r\n");
+			}
+		}
+		else
+		{
+			printf("-no response\r\n");
+		}
+	}
+	
+	if(radioTestPass)
+	{
+		printf("#RADIO TEST PASS\r\n");
+		return true;
+	}
+	else
+	{
+		printf("#RADIO TEST FAIL\r\n");
+		return false;
+	}
+
+//	rssiDtu = return_data[dataLen-2];  //信号质量记录
+//	snrDtu = return_data[dataLen-1]/4;
+//	rssiGw = return_data[11];
+//	snrGw = return_data[12];
+
+//						
+//	printf("rssiDtu: %d\r\n",(int8_t)rssiDtu);
+//	printf("snrDtu: %d\r\n",(int8_t)snrDtu);
+//	printf("rssiDtu: %d\r\n",(int8_t)rssiGw);
+//	printf("snrDtu: %d\r\n",(int8_t)snrGw);	
+	
+	
+}
+
+void factoryTest(void)
+{
+	uint8_t return_data[50] = {0};
+	uint16_t seed = 0;
+	uint16_t random_t = 0;
+	uint16_t i = 0;
+	char hexData[2];
+	uint8_t confResult[10]={0};
+	uint8_t errorFlag=0;
+	uint8_t P2P_DATA[10]={0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08};
+	bool rxTimeoutFlag = false;
+	uint8_t sensorTestResult = 0x00;
+
+	//***LED状态***//
+	ledStat = ON;
+	
+	//***P2P配置***//
+	p2pSetup();
+	
+	//***DEVEUI获取***//
+	node_gpio_set(mode, command);
+	transfer_inquire_command("AT+DEVEUI?", return_data);
+	for(i=0;return_data[i]!=NULL;i++)
+	{
+		deveuiBuf[i]=return_data[i];
+	}
+	
+	//***握手尝试***//
+	if(handShakeAttempt() == 0)  //握手失败
+	{
+		ledStat = OFF;
+		return;
+	}
+
+	//***报警器测试***//
+	if(sensorTest()) sensorTestResult = 0xff;
+	else sensorTestResult = 0x00;
+	
+	//***射频通信测试***//
+	if(radioTest(sensorTestResult) == true && sensorTestResult == 0xff)  //测试通过
+	{
+		ledStat = QUICKFLASH;
+	}
+	else  //测试失败
+	{
+		ledStat = OFF;
+	}
+//	system_delay_ms(50000);  //测试结束后保持200s
+//	system_delay_ms(50000);
+//	system_delay_ms(50000);
+//	system_delay_ms(50000);
+}
+

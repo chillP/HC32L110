@@ -35,8 +35,11 @@ void Wdt_init(void);
 void WdtCallback(void);
 void Pca_led_init(void);
 void Pca_Timer_Init(void);
-void Adtimer_init(void);
-	
+void Adtimer5_init(void);
+void Adt5CompACalllback(void);
+void Adtimer4_init(void);
+void Adt4OVFCalllback(void);
+
 typedef enum 
 {
 	ON,  //µ„¡¡

@@ -18,6 +18,9 @@ void factoryTest_Task(void);
 void pdRecovery_Judge(void);
 void ledStatHandle(void);
 void getDeveui(void);
+void factoryTest(void);
+bool radioTest(uint8_t sensorTestResult);
+uint8_t frameCheck(uint8_t* return_data);
 
 typedef struct {
 	char dataContent[30];  //数据内容，如"CH4"
@@ -26,7 +29,18 @@ typedef struct {
 }dataRecordType;
 
 
-
+typedef struct {
+	uint8_t ver;
+	uint8_t P2P_Mode;
+	uint8_t P2P_SF;
+	uint16_t P2P_FRQ;
+	uint8_t P2P_FRQ_step;
+	uint8_t P2P_PWR;
+	uint8_t P2P_PWR_code;
+	uint8_t P2P_TIME;
+	uint8_t P2P_RSSI[5];
+	uint8_t P2P_SNR[5];
+} LoRaNode_P2P_Info;
 
 
 #endif

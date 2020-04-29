@@ -54,7 +54,7 @@ volatile uint32_t RxDoneFlag_uart0 = 0;
 volatile uint32_t RxDoneFlag_uart1 = 0;
 
 //功能开关
-uint8_t keyFunTest = 0;
+uint8_t keyFunTest = 1;
 uint8_t vdetectEnable = 0;
 
 //掉电检测标志
@@ -80,8 +80,10 @@ extern uint8_t heartbeatPeriod;
 //呼吸配置
 //uint8_t ledBreath[55] = {0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,2,2,2,2,2,2,3,3,3,3,3,3,4,4,4,5,5,6,7,8,9,10,11,12,14,16,19,21,23,26,29,33,37,41,50,60,70};
 
+
 static volatile uint32_t u32PcaTestFlag = 0;
 static stc_adt_cntstate_cfg_t stcAdt5CntState;
+static stc_adt_cntstate_cfg_t stcAdt4CntState;
 
 /******************************************************************************
  * 系统systick定时器
@@ -141,40 +143,41 @@ uint32_t getTick(void)
 void Uart0_RxIntCallback(void)
 {
 	if(uart0_RxByteCnt>UART0_RXBUFSIZE) uart0_RxByteCnt=0;  //重覆盖
-	if(RxDoneFlag_uart0 ==1)  //清缓存
-	{
-		RxDoneFlag_uart0 = 0;
-		uart0_RxByteCnt=0;
-		memset(uart0_RxBuf,0,UART0_RXBUFSIZE);
-	}
+//	if(RxDoneFlag_uart0 ==1)  //清缓存
+//	{
+//		RxDoneFlag_uart0 = 0;
+//		uart0_RxByteCnt=0;
+//		memset(uart0_RxBuf,0,UART0_RXBUFSIZE);
+//	}
 	
 	uart0_RxBuf[uart0_RxByteCnt++] = Uart_ReceiveData(UARTCH0);
 	
 	Lpt_Stop();
 	Lpt_ARRSet(1374);//波特率9600下，单字节数据传输时间0.83ms 分帧间隔需>0.83ms*1.5  
-  Lpt_Run();  //完成每字节接收后更新分帧定时器	
+	Lpt_Run();  //完成每字节接收后更新分帧定时器	
 }
 
 void Uart1_RxIntCallback(void)
 {
 	if(uart1_RxByteCnt>UART1_RXBUFSIZE) uart1_RxByteCnt=0;  //重覆盖
-	if(RxDoneFlag_uart1 ==1)  //清缓存
-	{
-		RxDoneFlag_uart1 = 0;
-		uart1_RxByteCnt=0;
-		memset(uart1_RxBuf,0,UART1_RXBUFSIZE);
-	}
+//	if(RxDoneFlag_uart1 ==1)  //清缓存
+//	{
+//		RxDoneFlag_uart1 = 0;
+//		uart1_RxByteCnt=0;
+//		memset(uart1_RxBuf,0,UART1_RXBUFSIZE);
+//	}
 	
 	uart1_RxBuf[uart1_RxByteCnt++] = Uart_ReceiveData(UARTCH1);
 	
 	Lpt_Stop();
 	Lpt_ARRSet(1374);//波特率9600下，单字节数据传输时间0.83ms 分帧间隔需>0.83ms*1.5  
-  Lpt_Run();  //完成每字节接收后更新分帧定时器		
+	Lpt_Run();  //完成每字节接收后更新分帧定时器		
 }
 
 void Lpuart_RxIntCallback(void)
 {
-	if(lpuart_RxByteCnt>LPUART_RXBUFSIZE) lpuart_RxByteCnt=0;  //重覆盖
+	if(lpuart_RxByteCnt>=LPUART_RXBUFSIZE) lpuart_RxByteCnt=0;  //重覆盖
+
 	if(RxDoneFlag_lpuart ==1)  //清缓存
 	{
 		RxDoneFlag_lpuart = 0;
@@ -184,10 +187,9 @@ void Lpuart_RxIntCallback(void)
 	
 	lpuart_RxBuf[lpuart_RxByteCnt++] = LPUart_ReceiveData();
 	
-	
-	Pca_Stop();
-	Pca_Cnt16Set(0);  //重新计数
-	Pca_Run();  //完成每字节接收后更新分帧定时器	
+	Adt_StopCount(AdTIM4);   //更新分帧定时器
+	Adt_ClearCount(AdTIM4);
+	Adt_StartCount(AdTIM4);
 }
 
 void Uart0_ErrIntCallback(void)
@@ -460,7 +462,7 @@ void Lpuart1_init()
  * 分帧定时器中断回调函数
  ******************************************************************************/
 void LptInt(void)
-{
+{	
 	if (TRUE == Lpt_GetIntFlag())
 	{
 		Lpt_ClearIntFlag();
@@ -523,8 +525,8 @@ void Lptimer_Init(void)
     
     
     //设置重载值，计数初值，启动计数
-    //Lpt_ARRSet(u16ArrData);
-    //Lpt_Run();
+//    Lpt_ARRSet(0);
+//    Lpt_Run();
 }
 
 /******************************************************************************
@@ -536,12 +538,12 @@ void Pca_Timer_Init(void)
     stc_pca_capmodconfig_t stcModConfig;
     en_result_t      enResult = Error;
     uint16_t         u16InitCntData = 0;
-    uint16_t         u16CcapData = 0x02AF; 
-    
-		Clk_SetPeripheralGate(ClkPeripheralPca, TRUE);  //开启PCA外设时钟
+	uint16_t         u16CcapData = 0x009B;    
+	
+	Clk_SetPeripheralGate(ClkPeripheralPca, TRUE);  //开启PCA外设时钟
     stcConfig.enCIDL = IdleGoon; 
     stcConfig.enWDTE = PCAWDTDisable;
-    stcConfig.enCPS  = PCAPCLKDiv2; 
+    stcConfig.enCPS  = PCAPCLKDiv32; 
     
     stcConfig.pfnPcaCb = PcaInt;
     
@@ -567,25 +569,22 @@ void Pca_Timer_Init(void)
     EnableNvic(PCA_IRQn, 3, TRUE);
 
     Pca_CapData16Set(Module2, u16CcapData);//比较捕获寄存器设置
-    Pca_Cnt16Set(u16InitCntData);
-		//Pca_Run();
+    //Pca_Cnt16Set(u16InitCntData);
+	Pca_Run();
 
 }
 
 /******************************************************************************
- * ADTimer中断服务函数
+ * ADTimer5中断服务函数-掉电检测
  ******************************************************************************/
 void Adt5CompACalllback(void)
 {
-	static bool ledstat=0;
 	static uint8_t powerLowFlag=0;
-	static uint8_t tick_5s=0;	
 	
     Adt_GetCntState(AdTIM5, &stcAdt5CntState);
 
 	Adt_SetCompareValue(AdTIM5, AdtCompareA, 0x00ff);    //??????????A??
 
-	tick_5s++;
 
 	//50ms检测一次掉电
 	if(vdetectEnable)
@@ -603,9 +602,28 @@ void Adt5CompACalllback(void)
 }
 
 /******************************************************************************
- * ADTimer初始化
+ * ADTimer4中断服务函数-Lpuart分帧
  ******************************************************************************/
-void Adtimer_init(void)
+void Adt4OVFCalllback(void)
+{
+	//static bool ledstat=0;
+	static uint8_t powerLowFlag=0;
+
+	Adt_ClearIrqFlag(AdTIM4,AdtOVFIrq);  //清中断标志
+	RxDoneFlag_lpuart = 1;  //串口接收完成标志
+	Adt_StopCount(AdTIM4);  //停止计数
+	
+	//功能验证时使用，确认分帧时刻
+	//ledstat = !ledstat;  
+	//Gpio_SetIO(3,2,ledstat);
+		
+
+}
+
+/******************************************************************************
+ * ADTimer5初始化-掉电检测
+ ******************************************************************************/
+void Adtimer5_init(void)
 {
 	en_adt_unit_t enAdt;
     uint16_t u16Period;
@@ -640,6 +658,41 @@ void Adtimer_init(void)
     Adt_ConfigIrq(enAdt, AdtCMAIrq, TRUE, Adt5CompACalllback);
     
     Adt_StartCount(enAdt);
+}
+
+/******************************************************************************
+ * ADTimer4初始化-Lpuart分帧
+ ******************************************************************************/
+void Adtimer4_init(void)
+{
+	en_adt_unit_t enAdt;
+    uint16_t u16Period;
+    en_adt_compare_t enAdtCompare;
+    uint16_t u16Compare;
+    
+    stc_adt_basecnt_cfg_t stcAdtBaseCntCfg;
+    stc_adt_CHxX_port_cfg_t stcAdtTIMACfg;
+    stc_adt_CHxX_port_cfg_t stcAdtTIMBCfg;
+    stc_adt_port_trig_cfg_t stcAdtPortTrig;
+	
+    DDL_ZERO_STRUCT(stcAdtBaseCntCfg);
+    DDL_ZERO_STRUCT(stcAdtTIMACfg);
+    DDL_ZERO_STRUCT(stcAdtPortTrig);
+    
+    Clk_SetPeripheralGate(ClkPeripheralAdt, TRUE);
+
+    enAdt = AdTIM4;
+
+    stcAdtBaseCntCfg.enCntMode = AdtSawtoothMode;
+    stcAdtBaseCntCfg.enCntDir = AdtCntUp;
+    stcAdtBaseCntCfg.enCntClkDiv = AdtClkPClk0;
+    Adt_Init(enAdt, &stcAdtBaseCntCfg);                      
+
+	u16Period = 0x4E00;										//5ms帧超时时间 不分频
+	//u16Period = 0x0138;                                    //5ms帧超时时间 64分频(有异常：定时器会提前发生中断)
+    Adt_SetPeriod(enAdt, u16Period);                         //
+    
+    Adt_ConfigIrq(enAdt, AdtOVFIrq, TRUE, Adt4OVFCalllback);
 }
 
 /******************************************************************************
@@ -679,7 +732,7 @@ void Pca_led_init(void)
 
 	//Gpio_InitIOExt(3, 2, GpioDirOut, FALSE, FALSE, TRUE, FALSE);  //LED1
 	
-		Clk_SetPeripheralGate(ClkPeripheralPca, TRUE);  //开启PCA外设时钟
+	Clk_SetPeripheralGate(ClkPeripheralPca, TRUE);  //开启PCA外设时钟
     Gpio_SetFunc_PCA_CH4_P32(0);
     
     stcConfig.enCIDL = IdleGoon; 
@@ -707,7 +760,7 @@ void Pca_led_init(void)
     Pca_CapDataLSet(Module4, u8CcaplData);
     Pca_CapDataHSet(Module4, u8CcaphData);
     Pca_Run();	
-		ledStat = OFF;
+	ledStat = OFF;
 }
 
 /******************************************************************************

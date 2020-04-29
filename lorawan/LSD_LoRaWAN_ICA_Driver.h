@@ -81,11 +81,13 @@ extern volatile uint32_t RxDoneFlag_uart1;
 									"AT+CHMASK=00FF" \
  * @endcode
 */
-#define AT_COMMAND_AND_SAVE			"AT+DEVEUI=004A7700660014D1,D391010220102816,1",  \
-									"AT+APPEUI=2C26C50066000001",  \
+//004A7700660014D1
+#define AT_COMMAND_AND_SAVE			"AT+DEVEUI=004A770066FFFFFF,D391010220102816,1",  \
+									"AT+APPEUI=2C26C50066000002",  \
 									"AT+APPKEY=00112233445566778899AABBCCDDEEFF",  \
+									"AT+MINIRF=0",  \
 									"AT+BAND=3,0",  \
-									"AT+OTAA=1",  \
+									"AT+OTAA=1,1",  \
 									"AT+CLASS=2",  \
 									"AT+DEBUG=0" \
 

@@ -30,6 +30,8 @@ uint8_t confirm_continue_failure_count = 0;
 int8_t last_up_datarate = -1;
 /** 终端不复位的情况下对模块复位的信号量 */
 node_reset_single_t node_reset_signal;
+//LED状态
+extern ledStatType ledStat;
 
 /**
   * @}
@@ -332,7 +334,7 @@ bool transfer_configure_command(char *cmd)
 	
 	node_gpio_set(wake, wakeup);
 	node_gpio_set(mode, command);
-
+	
 	lower2upper_and_remove_spaces((uint8_t *)cmd, (uint8_t *)tmp_cmd);
 
 	//Debug Info Print
@@ -1237,6 +1239,7 @@ execution_status_t node_block_send(uint8_t frame_type, uint8_t *buffer, uint8_t 
 	}
 	else
 	{
+		ledStat = BLINK;
 		confirm_continue_failure_count = 0;
 		return COMMUNICATION_SUCCESSS;
 	}

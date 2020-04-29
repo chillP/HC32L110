@@ -72,7 +72,7 @@ extern bool powerDownFlag;
 extern bool powerOnFlag;
 extern ledStatType ledStat;
 extern uint8_t vdetectEnable;
-
+extern bool keyDetectedFlag;
 /******************************************************************************
  * Local type definitions ('typedef')                                         
  ******************************************************************************/
@@ -84,7 +84,7 @@ extern uint8_t vdetectEnable;
 /******************************************************************************
  * Local variable definitions ('static')                                      *
  ******************************************************************************/
-uint8_t logLevel=0;
+uint8_t logLevel=2;
 uint8_t EeBuf[HDEE_EeSize];
 /******************************************************************************
  * Local pre-processor symbols/macros ('#define')                             
@@ -112,29 +112,42 @@ int32_t main(void)
 	volatile uint32_t u32Val = 0;
 	
 	SysTick_init();
-	Uart0_init();
-	Uart1_init();
-	Lpuart1_init();
-	Lptimer_Init();
-	Adtimer_init();
-	Gpio_lora_Init();
-	Gpio_key_init();
-	Pca_led_init();	
-	//Pca_Timer_Init();
-	Gpio_vdetect_init();
-	HDEE_Ini();
-	Wdt_init();
+	Uart0_init();  //报警器通信串口
+	Uart1_init();  //调试串口
+	Lpuart1_init();  //LoRaWAN模组通信串口
+	Lptimer_Init();  //Uart1/2分帧定时器
+	Adtimer5_init();  //掉电检测定时器
+	Adtimer4_init();  //Lpuart分帧定时器
+	Gpio_lora_Init();  //LoRaWAN模组初始化
+	Gpio_key_init();  //按键
+	Pca_led_init();	  //LED
+	Gpio_vdetect_init();  //掉电检测引脚
+	HDEE_Ini();  //Flash模拟EEPROM
+	Wdt_init();  //软件看门狗
+	
+
+	//出厂测试
+	while(1)
+	{
+		factoryTest();
+		while(1)
+		{
+			system_delay_ms(200); 
+			if(keyDetectedFlag) 
+			{
+				keyDetectedFlag=0;
+				break;
+
+			}
+			
+		}
+	}
+
+	//LoRaWAN模组初始化
 	lorawanResetAndConfig();
 
-
-	//按键测试
-	keyFunTest = 1;  //开启按键功能测试
-	
 	//获取DEVEUI
 	getDeveui();
-	
-	//出厂测试
-	factoryTest_Task();
 	
 	//读取掉电标记
 	pdRecovery_Judge();
